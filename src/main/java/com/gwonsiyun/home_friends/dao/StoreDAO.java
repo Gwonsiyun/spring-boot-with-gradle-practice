@@ -18,7 +18,7 @@ public class StoreDAO {
 	private static final String Namespace = "edu.study.mapper.storeMapper";
 
 	public List<StoreVO> list(SearchVO vo) throws Exception {
-		return sqlSession.selectList("storeMapper.listStore",vo);
+		return sqlSession.selectList(Namespace+".listStore",vo);
 	}
 
 }

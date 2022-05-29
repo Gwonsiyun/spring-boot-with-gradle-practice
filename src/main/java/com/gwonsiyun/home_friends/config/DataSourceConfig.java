@@ -16,12 +16,14 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(value="com", sqlSessionFactoryRef = "sqlSessionFactory")
+@MapperScan(value = "com.aaa", sqlSessionFactoryRef = "sqlSessionFactory")//value는 DB조회할때 컨트롤러에서 interface를 바로 연결해서 쓸때 필요 그외 의미없어보임
 public class DataSourceConfig {
 
-    @Value("${mybatis.mapper-locations}")
+    @Value("${mybatis.mapper-locations}")//application.properties에서 해당하는 설정을 가져와서 변수에 넣는다
     private String mapper_locations;
 
+
+    //이하 mybatis 설정(고정)
     @Bean(name="dataSource")
     @Primary
     @ConfigurationProperties(prefix="spring.datasource")
