@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="storeMapper">
+
+	<!-- 상품리스트 -->
+	<select id="listStore" resultType="com.gwonsiyun.home_friends.vo.StoreVO" parameterType="com.gwonsiyun.home_friends.vo.SearchVO">
+         SELECT spidx
+         		,title
+         		,product_name
+         		,FORMAT(origin_price,0) as origin_price
+         		,sale_price
+         		,FORMAT(sale_price,0) as view_price
+         		,brand
+         		,score
+         		,discount
+         		,review_cnt
+         		,img_system
+         		,category
+         		,detail
+           FROM shopping_product
+          WHERE 1=1
+            AND del_yn = 'N' 
+            <if test="searchType != null and searchType.equals('subject')">
+            	AND subject like '%'||#{searchValue}||'%' 
+            </if>
+            <if test="searchType != null and searchType.equals('writer')">
+            	AND writer like '%'||#{searchValue}||'%' 
+            </if>
+            <if test='category != null and category != ""'>
+           		AND category = #{category} 
+           	</if>
+           	<if test='detail != null and detail != ""'>
+           		AND detail = #{detail} 
+           	</if>
+           	<if test='free != null and free != "" and free == "Y"'>
+           		AND free_delivery = #{free} 
+           	</if>
+           	<if test='priceStart != null and priceStart != "" and priceEnd != null'>
+           		AND sale_price BETWEEN #{priceStart} AND #{priceEnd} 
+            </if>
+            <!-- 정렬방식 -->
+           	<if test='sell_cnt != null and sell_cnt != "" and sell_cnt.equals("yes")'>
+           		ORDER BY sell_cnt DESC 
+           	</if>
+           	<if test='review_cnt != null and review_cnt != "" and review_cnt.equals("yes")'>
+           		ORDER BY review_cnt DESC 
+           	</if>
+           	<if test='discount != null and discount != "" and discount.equals("yes")'>
+           		ORDER BY discount DESC 
+           	</if>
+           	<if test='order != null and order != "" and order=="sell_cnt"'>
+           		ORDER BY sell_cnt DESC 
+           	</if>
+           	<if test='order != null and order != "" and order=="score"'>
+           		ORDER BY score DESC 
+           	</if>
+           	<if test='order != null and order != "" and order=="priceUp"'>
+           		ORDER BY sale_price DESC
+           	</if>
+           	<if test='order != null and order != "" and order=="priceDown"'>
+           		ORDER BY sale_price 
+           	</if>
+           	<if test='page != null and page != "" and page.equals("limit")'>
+           		Limit 4 
+           	</if>
+           	
+    </select>
+
+</mapper>

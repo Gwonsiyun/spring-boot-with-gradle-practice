@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="Community_boardMapper">
+
+    <!-- 본문 4개가져오기 -->
+	<select id="Comm_listBoard4" resultType="com.gwonsiyun.home_friends.vo.Community_BoardVO" parameterType="com.gwonsiyun.home_friends.vo.SearchVO">
+         SELECT cbidx,
+         		title,
+         		writer,
+         		scrap_cnt,
+         		hit_cnt,
+         		img_system,
+         		profile_system,
+         		c.midx
+           FROM community_board c
+          INNER JOIN member m
+             ON c.midx = m.midx 
+          WHERE 1=1
+            AND c.del_yn = 'N'
+		  ORDER BY c.cbidx DESC	  
+		  LIMIT 4
+    </select>
+
+</mapper>

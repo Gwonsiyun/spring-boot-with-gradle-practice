@@ -26,6 +26,19 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//jstl
+	implementation 'javax.servlet:jstl:1.2'
+	//jasper
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+	//mysql
+	implementation 'mysql:mysql-connector-java:8.0.29'
+	implementation 'org.springframework:spring-jdbc'
+	//mybatis
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	implementation 'org.mybatis:mybatis:3.5.9'
+	implementation 'org.apache.commons:commons-dbcp2:2.9.0'
 }
 
 tasks.named('test') {
