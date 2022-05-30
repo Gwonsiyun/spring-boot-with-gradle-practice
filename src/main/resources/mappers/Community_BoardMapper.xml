@@ -3,10 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-<mapper namespace="Community_boardMapper">
-
+<mapper namespace="edu.study.mapper.Community_boardMapper">
+<!--	&lt;!&ndash; 본문 가져오기 &ndash;&gt;-->
+<!--	<select id="Comm_listBoard" resultType="Community_boardVO" parameterType="SearchVO">-->
+<!--         SELECT cbidx,-->
+<!--         		title,-->
+<!--         		writer,-->
+<!--         		scrap_cnt,-->
+<!--         		hit_cnt,-->
+<!--         		img_system,-->
+<!--         		profile_system,-->
+<!--         		c.midx-->
+<!--           FROM community_board c-->
+<!--           INNER JOIN member m-->
+<!--           ON c.midx = m.midx -->
+<!--          WHERE 1=1-->
+<!--          AND c.del_yn = 'N'-->
+<!--		ORDER BY c.cbidx DESC	  -->
+<!--    </select>-->
+<!--    -->
     <!-- 본문 4개가져오기 -->
-	<select id="Comm_listBoard4" resultType="com.gwonsiyun.home_friends.vo.Community_BoardVO" parameterType="com.gwonsiyun.home_friends.vo.SearchVO">
+	<select id="Comm_listBoard4" resultType="Community_BoardVO" parameterType="SearchVO">
          SELECT cbidx,
          		title,
          		writer,
@@ -23,5 +40,246 @@
 		  ORDER BY c.cbidx DESC	  
 		  LIMIT 4
     </select>
-
+<!--    -->
+<!--    &lt;!&ndash; 본문 선택 가져오기 &ndash;&gt;-->
+<!--	<select id="Comm_selectList" resultType="Community_boardVO" parameterType="SearchVO">-->
+<!--         SELECT cbidx,-->
+<!--         		title,-->
+<!--         		writer,-->
+<!--         		scrap_cnt,-->
+<!--         		hit_cnt,-->
+<!--         		img_system,-->
+<!--         		profile_system,-->
+<!--         		c.midx-->
+<!--           FROM community_board c-->
+<!--           INNER JOIN member m-->
+<!--           ON c.midx = m.midx -->
+<!--          WHERE 1=1-->
+<!--          AND c.del_yn = 'N'-->
+<!--		  <if test="sort != null &amp;&amp; !sort.equals('') &amp;&amp; sort.equals('recent')">-->
+<!--			  ORDER BY c.cbidx DESC-->
+<!--		  </if>-->
+<!--		  <if test="sort != null &amp;&amp; !sort.equals('') &amp;&amp; sort.equals('view')">-->
+<!--			  ORDER BY c.hit_cnt DESC, c.cbidx DESC-->
+<!--		  </if>-->
+<!--		  <if test="sort != null &amp;&amp; !sort.equals('') &amp;&amp; sort.equals('scrap')">-->
+<!--			  ORDER BY c.scrap_cnt DESC, c.cbidx DESC-->
+<!--		  </if>-->
+<!--    </select>-->
+<!--    -->
+<!--    &lt;!&ndash; 전체 글 개수 &ndash;&gt;-->
+<!--    <select id="Comm_listcnt" resultType="int">-->
+<!--    	SELECT count(*) as listCnt-->
+<!--    	FROM community_board-->
+<!--    	WHERE del_yn = 'N'-->
+<!--    </select>-->
+<!--    -->
+<!--    &lt;!&ndash; 본문 커버사진 &ndash;&gt;-->
+<!--    <select id="Comm_mainImg" resultType="Community_boardVO">-->
+<!--    	SELECT cbidx,-->
+<!--    		   title,-->
+<!--    		   writer,-->
+<!--    		   img_system,-->
+<!--    		   profile_system,-->
+<!--    		   c.midx-->
+<!--    	FROM community_board c-->
+<!--        INNER JOIN member m-->
+<!--        ON c.midx = m.midx-->
+<!--    	WHERE hit_cnt = (-->
+<!--    	SELECT hit_cnt-->
+<!--    	FROM community_board-->
+<!--    	ORDER BY hit_cnt DESC-->
+<!--    	LIMIT 1)-->
+<!--    	AND c.del_yn = 'N'-->
+<!--    	ORDER BY cbidx DESC-->
+<!--    	LIMIT 1-->
+<!--    </select>-->
+<!--    -->
+<!--    &lt;!&ndash; 본문 상세보기 &ndash;&gt;-->
+<!--    <select id="Comm_detailBoard" resultType="Community_boardVO" parameterType="int">-->
+<!--    <![CDATA[-->
+<!--    	 SELECT cbidx,-->
+<!--				title,-->
+<!--         		content,-->
+<!--         		writer,-->
+<!--      		CASE-->
+<!--			    WHEN TIMESTAMPDIFF(MINUTE, write_date, NOW()) <= 0 THEN '방금 전'-->
+<!--			    WHEN TIMESTAMPDIFF(MINUTE, write_date, NOW()) < 60 THEN CONCAT(TIMESTAMPDIFF(MINUTE, write_date, NOW()), '분 전')-->
+<!--			    WHEN TIMESTAMPDIFF(HOUR, write_date, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, write_date, NOW()), '시간 전')-->
+<!--			    WHEN TIMESTAMPDIFF(DAY, write_date, NOW()) < 30 THEN CONCAT(TIMESTAMPDIFF(DAY, write_date, NOW()), '일 전')-->
+<!--		    	ELSE CONCAT(TIMESTAMPDIFF(MONTH, write_date, NOW()), '달 전')-->
+<!--			END AS write_date,-->
+<!--				modify_yn,-->
+<!--			CASE-->
+<!--			    WHEN TIMESTAMPDIFF(MINUTE, modify_date, NOW()) <= 0 THEN '방금 전'-->
+<!--			    WHEN TIMESTAMPDIFF(MINUTE, modify_date, NOW()) < 60 THEN CONCAT(TIMESTAMPDIFF(MINUTE, modify_date, NOW()), '분 전')-->
+<!--			    WHEN TIMESTAMPDIFF(HOUR, modify_date, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, modify_date, NOW()), '시간 전')-->
+<!--			    WHEN TIMESTAMPDIFF(DAY, modify_date, NOW()) < 30 THEN CONCAT(TIMESTAMPDIFF(DAY, modify_date, NOW()), '일 전')-->
+<!--		    	ELSE CONCAT(TIMESTAMPDIFF(MONTH, modify_date, NOW()), '달 전')-->
+<!--			END AS modify_date,-->
+<!--         		scrap_cnt,-->
+<!--         		reply_cnt,-->
+<!--         		img_system,-->
+<!--         		hit_cnt,-->
+<!--         		c.midx,-->
+<!--         		profile_system-->
+<!--          FROM community_board c-->
+<!--          INNER JOIN member m-->
+<!--          ON c.midx = m.midx-->
+<!--          WHERE cbidx= #{cbidx}-->
+<!--          AND c.del_yn = 'N'-->
+<!--    ]]>-->
+<!--    </select>-->
+<!--    -->
+<!--    &lt;!&ndash; 본문 수정하기 &ndash;&gt;-->
+<!--    <update id="Comm_updateBoard" parameterType="Community_BoardVO">-->
+<!--    	UPDATE community_board-->
+<!--    	   SET modify_yn = 'Y',-->
+<!--    	   	   modify_date = now(),-->
+<!--    	   	   title = #{title},-->
+<!--    		   content = #{content}-->
+<!--         WHERE cbidx = #{cbidx}-->
+<!--    </update>-->
+<!--    -->
+<!--    &lt;!&ndash; 본문 삭제하기 &ndash;&gt;-->
+<!--    <update id="Comm_deleteBoard" parameterType="int">-->
+<!--    	UPDATE community_board-->
+<!--    	   SET del_yn = 'Y',-->
+<!--    	   	   del_date = now()-->
+<!--    	 WHERE cbidx = #{cbidx}-->
+<!--    </update>-->
+<!--    -->
+<!--    &lt;!&ndash; 본문 글 작성 &ndash;&gt;-->
+<!--    <insert id="Comm_insertBoard" parameterType="Community_BoardVO">-->
+<!--    <![CDATA[-->
+<!--    	INSERT INTO community_board(-->
+<!--    		title,-->
+<!--    		content,-->
+<!--    		writer,-->
+<!--    		midx,-->
+<!--    		img_origin,-->
+<!--    		img_system-->
+<!--    	) VALUES(-->
+<!--    		#{title},-->
+<!--    		#{content},-->
+<!--    		#{writer},-->
+<!--    		#{midx},-->
+<!--    		#{img_origin},-->
+<!--    		#{img_system}-->
+<!--    	)-->
+<!--    ]]>-->
+<!--    <selectKey resultType="int" keyProperty="cbidx" order="AFTER">-->
+<!--    	SELECT MAX(cbidx)-->
+<!--    	  FROM community_board-->
+<!--    </selectKey>-->
+<!--    </insert>-->
+<!--    -->
+<!--    &lt;!&ndash; 마지막 댓글 번호 &ndash;&gt;-->
+<!--    <select id="cbridx" resultType="int">-->
+<!--    	SELECT MAX(cbridx)-->
+<!--    	FROM community_reply-->
+<!--    </select>-->
+<!--    -->
+<!--    &lt;!&ndash; 조회수 증가 &ndash;&gt;-->
+<!--    <update id="viewCount" parameterType="int">-->
+<!--    	UPDATE community_board-->
+<!--    	   SET hit_cnt = hit_cnt+1-->
+<!--    	 WHERE cbidx = #{cbidx}-->
+<!--    </update>-->
+<!--    -->
+<!--    &lt;!&ndash; 유저의 게시판 리스트 &ndash;&gt;-->
+<!--    <select id="blist" resultType="Community_boardVO" parameterType="MemberVO">-->
+<!--    	SELECT cbidx,-->
+<!--         		title,-->
+<!--         		content,-->
+<!--         		writer,-->
+<!--         		img_system,-->
+<!--         		scrap_cnt,-->
+<!--         		hit_cnt,-->
+<!--         		profile_system,-->
+<!--         		c.midx-->
+<!--           FROM community_board c-->
+<!--          INNER JOIN member m-->
+<!--             ON c.midx = m.midx -->
+<!--          WHERE 1=1-->
+<!--            AND c.del_yn = 'N'-->
+<!--    	  ORDER BY write_date DESC-->
+<!--    </select>-->
+<!--    -->
+<!--    &lt;!&ndash; 팔로우 유저 게시판 리스트 가져오기 &ndash;&gt;-->
+<!--    <select id="boardList" resultType="Community_boardVO" parameterType="FollowVO">-->
+<!--    <![CDATA[-->
+<!--    	SELECT cbidx,-->
+<!--         		title,-->
+<!--         		content,-->
+<!--         		writer,-->
+<!--         	CASE-->
+<!--			    WHEN TIMESTAMPDIFF(MINUTE, write_date, NOW()) <= 0 THEN '방금 전'-->
+<!--			    WHEN TIMESTAMPDIFF(MINUTE, write_date, NOW()) < 60 THEN CONCAT(TIMESTAMPDIFF(MINUTE, write_date, NOW()), '분 전')-->
+<!--			    WHEN TIMESTAMPDIFF(HOUR, write_date, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, write_date, NOW()), '시간 전')-->
+<!--			    WHEN TIMESTAMPDIFF(DAY, write_date, NOW()) < 30 THEN CONCAT(TIMESTAMPDIFF(DAY, write_date, NOW()), '일 전')-->
+<!--		    	ELSE CONCAT(TIMESTAMPDIFF(MONTH, write_date, NOW()), '달 전')-->
+<!--			END AS write_date,-->
+<!--				modify_yn,-->
+<!--			CASE-->
+<!--			    WHEN TIMESTAMPDIFF(MINUTE, modify_date, NOW()) <= 0 THEN '방금 전'-->
+<!--			    WHEN TIMESTAMPDIFF(MINUTE, modify_date, NOW()) < 60 THEN CONCAT(TIMESTAMPDIFF(MINUTE, modify_date, NOW()), '분 전')-->
+<!--			    WHEN TIMESTAMPDIFF(HOUR, modify_date, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, modify_date, NOW()), '시간 전')-->
+<!--			    WHEN TIMESTAMPDIFF(DAY, modify_date, NOW()) < 30 THEN CONCAT(TIMESTAMPDIFF(DAY, modify_date, NOW()), '일 전')-->
+<!--		    	ELSE CONCAT(TIMESTAMPDIFF(MONTH, modify_date, NOW()), '달 전')-->
+<!--			END AS modify_date,-->
+<!--         		img_system,-->
+<!--         		profile_system,-->
+<!--         		c.midx-->
+<!--           FROM community_board c-->
+<!--          INNER JOIN member m-->
+<!--             ON c.midx = m.midx -->
+<!--          WHERE 1=1-->
+<!--     ]]>-->
+<!--            AND c.del_yn = 'N'-->
+<!--            AND c.midx IN-->
+<!--            <foreach item="midx" index="index" collection="flist" open="(" close=")" separator=",">-->
+<!--          	    #{midx.midx}-->
+<!--            </foreach>-->
+<!--          ORDER BY write_date DESC-->
+<!--   -->
+<!--    </select>-->
+<!--    -->
+<!--    &lt;!&ndash; 팔로우 유무 조회 &ndash;&gt;-->
+<!--    <select id="isFollow" resultType="int" parameterType="FollowVO">-->
+<!--    	SELECT COUNT(*)-->
+<!--    	  FROM follow-->
+<!--    	 WHERE midx = #{midx}-->
+<!--    	   AND fmidx = #{fmidx}-->
+<!--    </select>-->
+<!--    -->
+<!--    &lt;!&ndash; 스크랩 유무 조회 &ndash;&gt;-->
+<!--    <select id="isScrap" resultType="int" parameterType="ScrapVO">-->
+<!--    	SELECT COUNT(*)-->
+<!--    	  FROM scrap-->
+<!--    	 WHERE cbidx = #{cbidx}-->
+<!--    	   AND midx = #{midx}-->
+<!--    </select>-->
+<!--    -->
+<!--    &lt;!&ndash; 스크랩 유저 게시판 리스트 &ndash;&gt;-->
+<!--    <select id="sList" resultType="Community_boardVO" parameterType="ScrapVO">-->
+<!--    	SELECT cbidx,-->
+<!--         		title,-->
+<!--         		writer,-->
+<!--         		scrap_cnt,-->
+<!--         		hit_cnt,-->
+<!--         		img_system,-->
+<!--         		profile_system,-->
+<!--         		c.midx-->
+<!--           FROM community_board c-->
+<!--           INNER JOIN member m-->
+<!--           ON c.midx = m.midx -->
+<!--          WHERE 1=1-->
+<!--          AND c.del_yn = 'N'-->
+<!--          AND cbidx IN-->
+<!--          <foreach item="cbidx" index="index" collection="scrapList" open="(" close=")" separator=",">-->
+<!--			#{cbidx.cbidx}-->
+<!--          </foreach>-->
+<!--    	  ORDER BY write_date DESC-->
+<!--    </select>-->
 </mapper>

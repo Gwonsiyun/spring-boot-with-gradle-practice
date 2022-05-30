@@ -22,6 +22,9 @@ public class DataSourceConfig {
     @Value("${mybatis.mapper-locations}")//application.properties에서 해당하는 설정을 가져와서 변수에 넣는다
     private String mapper_locations;
 
+    //mapper에서 vo단축
+    @Value("${mybatis.type-aliases-package}")
+    private String mapper_vo_loute;
 
     //이하 mybatis 설정(고정)
     @Bean(name="dataSource")
@@ -37,6 +40,10 @@ public class DataSourceConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(context.getResources(mapper_locations));
+
+        //mapper에서 vo단축
+        sqlSessionFactoryBean.setTypeAliasesPackage(mapper_vo_loute);
+
         return sqlSessionFactoryBean.getObject();
     }
 
