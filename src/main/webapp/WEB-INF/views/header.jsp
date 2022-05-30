@@ -8,8 +8,9 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">
+					<c:set var="context" value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}"/>
 					<img class="col-4" id="modalLogo" src="${pageContext.request.contextPath}/resources/image/mainLogo.png" alt="메인 로고 이미지"
-					onclick="location.href='${pageContext.request.contextPath}'">
+					onclick="location.href='<c:out value="${context}"/>'">
 				</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
@@ -128,7 +129,7 @@
 		
 		<div class="col-4" id="spaceDiv"></div>
 		<img class="col-4 col-pull-4 col-md-2 col-sm-3" id="logo" src="${pageContext.request.contextPath}/resources/image/mainLogo.png" alt="메인 로고 이미지"
-		onclick="location.href='${pageContext.request.contextPath}'">
+		onclick="location.href='<c:out value="${context}"/>'">
 		<div class="col-2" id="spaceDiv"></div>
 		
 		<form class="col-md-6 col-sm-7" id="searchFrm" name="searchFrm">
