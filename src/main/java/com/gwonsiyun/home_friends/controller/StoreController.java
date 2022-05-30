@@ -2,17 +2,17 @@ package com.gwonsiyun.home_friends.controller;
 
 import com.gwonsiyun.home_friends.service.HomeService;
 import com.gwonsiyun.home_friends.service.StoreService;
-import com.gwonsiyun.home_friends.vo.HomeSearchVO;
-import com.gwonsiyun.home_friends.vo.SearchVO;
-import com.gwonsiyun.home_friends.vo.StoreVO;
+import com.gwonsiyun.home_friends.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -401,14 +401,14 @@ public class StoreController {
 //	 * return list; }
 //	 */
 //
-//	//상품 상세보기
-//	@RequestMapping(value = "/store_view.do", method = RequestMethod.GET)
-//	public String store_view(Locale locale, Model model, int spidx,@RequestParam(value="nowPage", required = false, defaultValue="1") int nowPage, @RequestParam(value="qanowPage", required = false, defaultValue="1") int qanowPage, HttpServletResponse response, HttpServletRequest request) throws Exception {
-//		String nowUri = request.getRequestURI();
-//
-//		HttpSession session = request.getSession();
-//		session.setAttribute("nowUri", nowUri+"?spidx="+spidx);
-//
+	//상품 상세보기
+	@RequestMapping(value = "/store_view.do", method = RequestMethod.GET)
+	public String store_view(Locale locale, Model model, int spidx, @RequestParam(value="nowPage", required = false, defaultValue="1") int nowPage, @RequestParam(value="qanowPage", required = false, defaultValue="1") int qanowPage, HttpServletResponse response, HttpServletRequest request) throws Exception {
+		String nowUri = request.getRequestURI();
+
+		HttpSession session = request.getSession();
+		session.setAttribute("nowUri", nowUri+"?spidx="+spidx);
+
 //		// 최근 본 상품 처리 영역
 //		Cookie[] myCookies = request.getCookies();
 //		String recentView = null;
@@ -429,63 +429,63 @@ public class StoreController {
 //		recentViewCookie.setPath("/");
 //		response.addCookie(recentViewCookie);
 //	    // 최근 본 상품 영역 끝
-//
-//
-//
-//		int deleteResult = homeService.deleteSearchList();
-//
-//		List<HomeSearchVO> searchList = homeService.listSearchList();
-//
-//		model.addAttribute("searchList", searchList);
-//
-//
-//		//상품정보
-//		StoreVO selectOne = storeService.detail(spidx);
-//		//문의글 갯수 가져오기
-//		int qna_cnt = storeService.qna_cnt(spidx);
-//
-//		selectOne.setQna_cnt(qna_cnt);
-//
-//		model.addAttribute("vo",selectOne);
-//
-//		//문의페이징
-//		int total = storeService.qna_cnt(spidx);
-//		PagingVO pvo = new PagingVO(total,qanowPage,4);
-//	    int start = pvo.getStart();
-//	    int end = pvo.getEnd();
-//	    List<Store_qnaVO> qnalist = storeService.qnaList(spidx, start, end);
-//		model.addAttribute("qavo",qnalist);
-//		model.addAttribute("qapvo", pvo);
-//
-//		//리뷰페이징
-//		total = storeService.review_count(spidx);
-//		PagingVO rpvo = new PagingVO(total,nowPage,4);
-//  	    start = rpvo.getStart();
-//  	    end = rpvo.getEnd();
-//  	    List<Store_reviewVO> list = storeService.reviewList(spidx, start, end);
-//		model.addAttribute("rvo",list);
-//		model.addAttribute("pvo", rpvo);
-//
-//
-//		session = request.getSession();
-//		MemberVO member = (MemberVO)session.getAttribute("loginUser");
-//
-//		//좋아요여부
-//		int midx = 0;
-//		if(member!=null) {
-//			midx = member.getMidx();
-//		}
-//
-//  	    int islikey = storeService.islikey(midx,spidx);
-//
-//  	    model.addAttribute("islikey", islikey);
-//
-//
-//
-//		return "store/store_view";
-//
-//
-//	}
+
+
+
+		int deleteResult = homeService.deleteSearchList();
+
+		List<HomeSearchVO> searchList = homeService.listSearchList();
+
+		model.addAttribute("searchList", searchList);
+
+
+		//상품정보
+		StoreVO selectOne = storeService.detail(spidx);
+		//문의글 갯수 가져오기
+		int qna_cnt = storeService.qna_cnt(spidx);
+
+		selectOne.setQna_cnt(qna_cnt);
+
+		model.addAttribute("vo",selectOne);
+
+		//문의페이징
+		int total = storeService.qna_cnt(spidx);
+		PagingVO pvo = new PagingVO(total,qanowPage,4);
+	    int start = pvo.getStart();
+	    int end = pvo.getEnd();
+	    List<Store_qnaVO> qnalist = storeService.qnaList(spidx, start, end);
+		model.addAttribute("qavo",qnalist);
+		model.addAttribute("qapvo", pvo);
+
+		//리뷰페이징
+		total = storeService.review_count(spidx);
+		PagingVO rpvo = new PagingVO(total,nowPage,4);
+  	    start = rpvo.getStart();
+  	    end = rpvo.getEnd();
+  	    List<Store_reviewVO> list = storeService.reviewList(spidx, start, end);
+		model.addAttribute("rvo",list);
+		model.addAttribute("pvo", rpvo);
+
+
+		session = request.getSession();
+		MemberVO member = (MemberVO)session.getAttribute("loginUser");
+
+		//좋아요여부
+		int midx = 0;
+		if(member!=null) {
+			midx = member.getMidx();
+		}
+
+  	    int islikey = storeService.islikey(midx,spidx);
+
+  	    model.addAttribute("islikey", islikey);
+
+
+
+		return "store/store_view";
+
+
+	}
 //
 //	//실패-에이젝스로 해보려했지만 받고나서 하단 바 정보처리가 복잡하여 포기
 ////	@RequestMapping(value="/review_paging", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")

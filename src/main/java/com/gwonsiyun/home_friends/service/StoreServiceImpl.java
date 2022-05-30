@@ -49,11 +49,11 @@ public class StoreServiceImpl implements StoreService {
 //		return StoreDao.basketIn(vo);
 //	}
 //
-//	@Override
-//	public List<Store_qnaVO> qnaList(int spidx, int start, int end) throws Exception {
-//		// TODO Auto-generated method stub
-//		return StoreDao.qnaList(spidx, start, end);
-//	}
+	@Override
+	public List<Store_qnaVO> qnaList(int spidx, int start, int end) throws Exception {
+		// TODO Auto-generated method stub
+		return StoreDao.qnaList(spidx, start, end);
+	}
 //
 //	@Override
 //	public int qnaIn(Store_qnaVO vo) throws Exception {
@@ -61,12 +61,12 @@ public class StoreServiceImpl implements StoreService {
 //		return StoreDao.qnaIn(vo);
 //	}
 //
-//	@Override
-//	public int qna_cnt(int spidx) throws Exception {
-//		// TODO Auto-generated method stub
-//		return StoreDao.qna_cnt(spidx);
-//	}
-//
+	@Override
+	public int qna_cnt(int spidx) throws Exception {
+		// TODO Auto-generated method stub
+		return StoreDao.qna_cnt(spidx);
+	}
+
 //	@Override
 //	public int qna_reply(Store_qnaVO vo) throws Exception {
 //		// TODO Auto-generated method stub
@@ -138,23 +138,23 @@ public class StoreServiceImpl implements StoreService {
 //		return StoreDao.store_review_modify(vo);
 //	}
 //
-//	@Override
-//	public int review_count(int spidx) throws Exception {
-//		// TODO Auto-generated method stub
-//		return StoreDao.review_count(spidx);
-//	}
-//
-//	@Override
-//	public List<Store_reviewVO> reviewList(int spidx, int start, int end) throws Exception {
-//		// TODO Auto-generated method stub
-//		return StoreDao.reviewList(spidx, start, end);
-//	}
-//
-//	@Override
-//	public int islikey(int midx, int spidx) throws Exception {
-//		// TODO Auto-generated method stub
-//		return StoreDao.islikey(midx, spidx);
-//	}
+	@Override
+	public int review_count(int spidx) throws Exception {
+		// TODO Auto-generated method stub
+		return StoreDao.review_count(spidx);
+	}
+
+	@Override
+	public List<Store_reviewVO> reviewList(int spidx, int start, int end) throws Exception {
+		// TODO Auto-generated method stub
+		return StoreDao.reviewList(spidx, start, end);
+	}
+
+	@Override
+	public int islikey(int midx, int spidx) throws Exception {
+		// TODO Auto-generated method stub
+		return StoreDao.islikey(midx, spidx);
+	}
 //
 //	@Override
 //	public int likeIN(int midx, int spidx) throws Exception {

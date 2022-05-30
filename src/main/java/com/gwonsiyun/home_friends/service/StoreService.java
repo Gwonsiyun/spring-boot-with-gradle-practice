@@ -12,8 +12,8 @@ public interface StoreService {
 //	int delete(int spidx) throws Exception;
 //	int insert(StoreVO vo) throws Exception;
 //	int basketIn(BasketVO vo) throws Exception;
-//	List<Store_qnaVO> qnaList(int spidx, int start, int end) throws Exception;
-//	int qna_cnt(int spidx) throws Exception;
+	List<Store_qnaVO> qnaList(int spidx, int start, int end) throws Exception;
+	int qna_cnt(int spidx) throws Exception;
 //	int qnaIn(Store_qnaVO vo) throws Exception;
 //	Store_qnaVO qna_detail(int sqidx) throws Exception;
 //	int qna_reply(Store_qnaVO vo) throws Exception;
@@ -28,9 +28,9 @@ public interface StoreService {
 //	int store_review_change(StoreVO vo) throws Exception;
 //	int store_review_del(int sridx) throws Exception;
 //	int store_review_modify(Store_reviewVO vo) throws Exception;
-//	int review_count(int spidx) throws Exception;
-//	List<Store_reviewVO> reviewList(int spidx, int start, int end) throws Exception;
-//	int islikey(int midx,int spidx) throws Exception;
+	int review_count(int spidx) throws Exception;
+	List<Store_reviewVO> reviewList(int spidx, int start, int end) throws Exception;
+	int islikey(int midx,int spidx) throws Exception;
 //	int likeIN(int midx,int spidx) throws Exception;
 //	int likeDEL(int midx,int spidx) throws Exception;
 //	List<StoreVO> likelist(int midx) throws Exception;

@@ -7,7 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository // 컴포넌트 하위에 있는 어노테이션, 외부와 연결 할 때 사용하는 어노테이션
 public class StoreDAO {
@@ -42,22 +44,22 @@ public class StoreDAO {
 //		return sqlSession.insert(Namespace+".basketIn",vo);
 //	}
 //
-//	public List<Store_qnaVO> qnaList(int spidx, int start, int end) throws Exception {
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("spidx", spidx);
-//		map.put("start", start);
-//		map.put("end", end);
-//
-//		return sqlSession.selectList(Namespace+".listqna",map);
-//	}
+	public List<Store_qnaVO> qnaList(int spidx, int start, int end) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("spidx", spidx);
+		map.put("start", start);
+		map.put("end", end);
+
+		return sqlSession.selectList(Namespace+".listqna",map);
+	}
 //
 //	public int qnaIn(Store_qnaVO vo) throws Exception {
 //		return sqlSession.insert(Namespace+".insertqna",vo);
 //	}
 //
-//	public int qna_cnt(int spidx) throws Exception {
-//		return sqlSession.selectOne(Namespace+".qna_cnt",spidx);
-//	}
+	public int qna_cnt(int spidx) throws Exception {
+		return sqlSession.selectOne(Namespace+".qna_cnt",spidx);
+	}
 //	public int qna_reply(Store_qnaVO vo) throws Exception {
 //		return sqlSession.update(Namespace+".qna_reply",vo);
 //	}
@@ -96,26 +98,26 @@ public class StoreDAO {
 //		return sqlSession.update(Namespace+".store_review_modify",vo);
 //	}
 //
-//	//페이징
-//	public int review_count(int spidx) throws Exception{
-//		return sqlSession.selectOne(Namespace+".review_count",spidx);
-//	}
-//	public List<Store_reviewVO> reviewList(int spidx, int start, int end) throws Exception {
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("spidx", spidx);
-//		map.put("start", start);
-//		map.put("end", end);
-//		return sqlSession.selectList(Namespace+".reviewList",map);
-//	}
-//
-//
-//	//좋아요여부
-//	public int islikey(int midx, int spidx) throws Exception{
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("spidx", spidx);
-//		map.put("midx", midx);
-//		return sqlSession.selectOne(Namespace+".islikey",map);
-//	}
+	//페이징
+	public int review_count(int spidx) throws Exception{
+		return sqlSession.selectOne(Namespace+".review_count",spidx);
+	}
+	public List<Store_reviewVO> reviewList(int spidx, int start, int end) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("spidx", spidx);
+		map.put("start", start);
+		map.put("end", end);
+		return sqlSession.selectList(Namespace+".reviewList",map);
+	}
+
+
+	//좋아요여부
+	public int islikey(int midx, int spidx) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		map.put("spidx", spidx);
+		map.put("midx", midx);
+		return sqlSession.selectOne(Namespace+".islikey",map);
+	}
 //	//좋아요하기
 //	public int likeIN(int midx, int spidx) throws Exception{
 //		Map<String, Object> map = new HashMap<>();

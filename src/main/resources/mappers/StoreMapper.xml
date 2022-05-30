@@ -201,29 +201,29 @@
 <!--	    ]]>-->
 <!--    </insert>-->
 <!--    -->
-<!--    <select id="listqna" resultType="Store_qnaVO" parameterType="int">-->
-<!--         SELECT qna.* FROM-->
-<!--         (SELECT @rownum := @rownum+1 as rownum-->
-<!--         		,sqidx-->
-<!--         		,content-->
-<!--         		,writer-->
-<!--         		,date_format(write_date, '%Y-%m-%d') write_date-->
-<!--         		,modify_yn-->
-<!--         		,date_format(modify_date, '%Y-%m-%d') modify_date-->
-<!--         		,answer-->
-<!--         		,answer_content-->
-<!--         		,answer_writer-->
-<!--         		,date_format(answer_date, '%Y-%m-%d') answer_date-->
-<!--         		,spidx-->
-<!--         		,midx-->
-<!--           FROM shopping_qna, (SELECT @rownum:=0) rn-->
-<!--          WHERE 1=1-->
-<!--            AND del_yn = 'N' -->
-<!--           	AND spidx = #{spidx}-->
-<!--          ORDER BY sqidx DESC) qna-->
-<!--         WHERE rownum BETWEEN #{start} AND #{end};-->
-<!--         -->
-<!--    </select>-->
+    <select id="listqna" resultType="Store_qnaVO" parameterType="int">
+         SELECT qna.* FROM
+         (SELECT @rownum := @rownum+1 as rownum
+         		,sqidx
+         		,content
+         		,writer
+         		,date_format(write_date, '%Y-%m-%d') write_date
+         		,modify_yn
+         		,date_format(modify_date, '%Y-%m-%d') modify_date
+         		,answer
+         		,answer_content
+         		,answer_writer
+         		,date_format(answer_date, '%Y-%m-%d') answer_date
+         		,spidx
+         		,midx
+           FROM shopping_qna, (SELECT @rownum:=0) rn
+          WHERE 1=1
+            AND del_yn = 'N'
+           	AND spidx = #{spidx}
+          ORDER BY sqidx DESC) qna
+         WHERE rownum BETWEEN #{start} AND #{end};
+
+    </select>
 <!--    -->
 <!--    <select id="qna_detail" resultType="Store_qnaVO" parameterType="int">-->
 <!--         SELECT sqidx-->
@@ -243,9 +243,9 @@
 <!--           	AND sqidx = #{sqidx}-->
 <!--    </select>-->
 <!--    -->
-<!--    <select id="qna_cnt" resultType="int" parameterType="int">-->
-<!--	    	select count(*) from shopping_qna where del_yn = 'N' AND spidx = #{spidx}-->
-<!--    </select>-->
+    <select id="qna_cnt" resultType="int" parameterType="int">
+	    	select count(*) from shopping_qna where del_yn = 'N' AND spidx = #{spidx}
+    </select>
 <!--    -->
 <!--    <insert id="insertqna" parameterType="Store_qnaVO">-->
 <!--	    	INSERT INTO shopping_qna(-->
@@ -400,46 +400,46 @@
 <!--		WHERE sridx=#{sridx}-->
 <!--    </update>-->
 <!--    -->
-<!--    &lt;!&ndash; 페이징을 위한 쿼리들 &ndash;&gt;-->
-<!--    &lt;!&ndash; 데이터 카운트 쿼리 &ndash;&gt;-->
-<!--    <select id="review_count" resultType="int" parameterType="int">-->
-<!--    	SELECT count(*) -->
-<!--		FROM shopping_review-->
-<!--		where spidx = #{spidx} and del_yn='N';-->
-<!--    </select>-->
-<!--    &lt;!&ndash; 리뷰 리스트 &ndash;&gt;-->
-<!--    <select id="reviewList" resultType="Store_reviewVO" parameterType="int">-->
-<!--    	SELECT review.* FROM-->
-<!--		(SELECT @rownum := @rownum+1 as rownum-->
-<!--				,sr.sridx -->
-<!--				,sr.content -->
-<!--				,sr.writer -->
-<!--				,date_format(sr.write_date, '%Y-%m-%d') as write_date -->
-<!--				,sr.modify_yn -->
-<!--				,date_format(sr.modify_date, '%Y-%m-%d') as modify_date -->
-<!--				,sr.img_origin -->
-<!--				,sr.img_system-->
-<!--				,sr.score -->
-<!--				,sr.spidx -->
-<!--				,sr.midx -->
-<!--				,m.profile_origin -->
-<!--				,m.profile_system -->
-<!--				,m.nick_name -->
-<!--		FROM shopping_review sr INNER JOIN member m ON sr.midx = m.midx -->
-<!--				,(SELECT @rownum:=0) rn-->
-<!--		where sr.spidx = #{spidx} -->
-<!--				and sr.del_yn='N'-->
-<!--		ORDER BY sridx desc) review-->
-<!--		WHERE rownum BETWEEN #{start} AND #{end};-->
-<!--		-->
-<!--    </select>-->
-<!--    -->
-<!--    &lt;!&ndash; 좋아요 여부확인 &ndash;&gt;-->
-<!--    <select id="islikey" resultType="int" parameterType="int">-->
-<!--    	SELECT count(*) -->
-<!--		FROM likey-->
-<!--		where spidx = #{spidx} and midx = #{midx};-->
-<!--    </select>-->
+    <!-- 페이징을 위한 쿼리들 -->
+    <!-- 데이터 카운트 쿼리 -->
+    <select id="review_count" resultType="int" parameterType="int">
+    	SELECT count(*)
+		FROM shopping_review
+		where spidx = #{spidx} and del_yn='N';
+    </select>
+    <!-- 리뷰 리스트 -->
+    <select id="reviewList" resultType="Store_reviewVO" parameterType="int">
+    	SELECT review.* FROM
+		(SELECT @rownum := @rownum+1 as rownum
+				,sr.sridx
+				,sr.content
+				,sr.writer
+				,date_format(sr.write_date, '%Y-%m-%d') as write_date
+				,sr.modify_yn
+				,date_format(sr.modify_date, '%Y-%m-%d') as modify_date
+				,sr.img_origin
+				,sr.img_system
+				,sr.score
+				,sr.spidx
+				,sr.midx
+				,m.profile_origin
+				,m.profile_system
+				,m.nick_name
+		FROM shopping_review sr INNER JOIN member m ON sr.midx = m.midx
+				,(SELECT @rownum:=0) rn
+		where sr.spidx = #{spidx}
+				and sr.del_yn='N'
+		ORDER BY sridx desc) review
+		WHERE rownum BETWEEN #{start} AND #{end};
+
+    </select>
+
+    <!-- 좋아요 여부확인 -->
+    <select id="islikey" resultType="int" parameterType="int">
+    	SELECT count(*)
+		FROM likey
+		where spidx = #{spidx} and midx = #{midx};
+    </select>
 <!--    &lt;!&ndash; 좋아요추가 &ndash;&gt;-->
 <!--    <insert id="likeIN" parameterType="int">-->
 <!--    	INSERT INTO likey(-->
