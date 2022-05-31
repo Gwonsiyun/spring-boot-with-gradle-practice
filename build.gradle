@@ -41,8 +41,16 @@ dependencies {
 	// for Logging
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
+	//json
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 	//gson
 	implementation 'com.google.code.gson:gson:2.6'
+
+	//mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	//springSecurity
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 }
 
