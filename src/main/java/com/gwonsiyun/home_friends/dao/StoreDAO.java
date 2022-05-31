@@ -28,22 +28,22 @@ public class StoreDAO {
 		return sqlSession.selectOne(Namespace+".detailStore",spidx);
 	}
 	
-//	public int update(StoreVO vo) throws Exception{
-//		return sqlSession.update(Namespace+".updateStore",vo);
-//	}
-//
-//	public int delete(int spidx) throws Exception{
-//		return sqlSession.delete(Namespace+".deleteStore",spidx);
-//	}
-//
-//	public int insert(StoreVO vo) throws Exception{
-//		return sqlSession.insert(Namespace+".insertStore",vo);
-//	}
-//
-//	public int basketIn(BasketVO vo) throws Exception{
-//		return sqlSession.insert(Namespace+".basketIn",vo);
-//	}
-//
+	public int update(StoreVO vo) throws Exception{
+		return sqlSession.update(Namespace+".updateStore",vo);
+	}
+
+	public int delete(int spidx) throws Exception{
+		return sqlSession.delete(Namespace+".deleteStore",spidx);
+	}
+
+	public int insert(StoreVO vo) throws Exception{
+		return sqlSession.insert(Namespace+".insertStore",vo);
+	}
+
+	public int basketIn(BasketVO vo) throws Exception{
+		return sqlSession.insert(Namespace+".basketIn",vo);
+	}
+
 	public List<Store_qnaVO> qnaList(int spidx, int start, int end) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("spidx", spidx);
@@ -52,52 +52,52 @@ public class StoreDAO {
 
 		return sqlSession.selectList(Namespace+".listqna",map);
 	}
-//
-//	public int qnaIn(Store_qnaVO vo) throws Exception {
-//		return sqlSession.insert(Namespace+".insertqna",vo);
-//	}
-//
+
+	public int qnaIn(Store_qnaVO vo) throws Exception {
+		return sqlSession.insert(Namespace+".insertqna",vo);
+	}
+
 	public int qna_cnt(int spidx) throws Exception {
 		return sqlSession.selectOne(Namespace+".qna_cnt",spidx);
 	}
-//	public int qna_reply(Store_qnaVO vo) throws Exception {
-//		return sqlSession.update(Namespace+".qna_reply",vo);
-//	}
-//	public int qna_a_del(int sqidx) throws Exception {
-//		return sqlSession.update(Namespace+".qna_a_del",sqidx);
-//	}
-//	public int qna_q_del(int sqidx) throws Exception {
-//		return sqlSession.update(Namespace+".qna_q_del",sqidx);
-//	}
-//	public Store_qnaVO qna_detail(int sqidx) throws Exception {
-//		return sqlSession.selectOne(Namespace+".qna_detail",sqidx);
-//	}
-//	public int qna_modify(Store_qnaVO vo) throws Exception {
-//		return sqlSession.update(Namespace+".qna_modify",vo);
-//	}
-//	public int store_review_insert(Store_reviewVO vo) throws Exception {
-//		return sqlSession.insert(Namespace+".store_review_insert",vo);
-//	}
-//
-//	public StoreVO store_review_cnt(int spidx) throws Exception{
-//		return sqlSession.selectOne(Namespace+".store_review_cnt",spidx);
-//	}
-//	public int store_review_change(StoreVO vo) throws Exception {
-//		return sqlSession.update(Namespace+".store_review_change",vo);
-//	}
-//	public List<Store_reviewVO> store_reviewList(int spidx) throws Exception {
-//		return sqlSession.selectList(Namespace+".store_reviewList",spidx);
-//	}
-//	public int store_review_del(int sridx) throws Exception {
-//		return sqlSession.update(Namespace+".store_review_del",sridx);
-//	}
-//	public Store_reviewVO store_review_Detail(int sridx) throws Exception{
-//		return sqlSession.selectOne(Namespace+".store_review_Detail",sridx);
-//	}
-//	public int store_review_modify(Store_reviewVO vo) throws Exception {
-//		return sqlSession.update(Namespace+".store_review_modify",vo);
-//	}
-//
+	public int qna_reply(Store_qnaVO vo) throws Exception {
+		return sqlSession.update(Namespace+".qna_reply",vo);
+	}
+	public int qna_a_del(int sqidx) throws Exception {
+		return sqlSession.update(Namespace+".qna_a_del",sqidx);
+	}
+	public int qna_q_del(int sqidx) throws Exception {
+		return sqlSession.update(Namespace+".qna_q_del",sqidx);
+	}
+	public Store_qnaVO qna_detail(int sqidx) throws Exception {
+		return sqlSession.selectOne(Namespace+".qna_detail",sqidx);
+	}
+	public int qna_modify(Store_qnaVO vo) throws Exception {
+		return sqlSession.update(Namespace+".qna_modify",vo);
+	}
+	public int store_review_insert(Store_reviewVO vo) throws Exception {
+		return sqlSession.insert(Namespace+".store_review_insert",vo);
+	}
+
+	public StoreVO store_review_cnt(int spidx) throws Exception{
+		return sqlSession.selectOne(Namespace+".store_review_cnt",spidx);
+	}
+	public int store_review_change(StoreVO vo) throws Exception {
+		return sqlSession.update(Namespace+".store_review_change",vo);
+	}
+	public List<Store_reviewVO> store_reviewList(int spidx) throws Exception {
+		return sqlSession.selectList(Namespace+".store_reviewList",spidx);
+	}
+	public int store_review_del(int sridx) throws Exception {
+		return sqlSession.update(Namespace+".store_review_del",sridx);
+	}
+	public Store_reviewVO store_review_Detail(int sridx) throws Exception{
+		return sqlSession.selectOne(Namespace+".store_review_Detail",sridx);
+	}
+	public int store_review_modify(Store_reviewVO vo) throws Exception {
+		return sqlSession.update(Namespace+".store_review_modify",vo);
+	}
+
 	//페이징
 	public int review_count(int spidx) throws Exception{
 		return sqlSession.selectOne(Namespace+".review_count",spidx);
@@ -118,32 +118,32 @@ public class StoreDAO {
 		map.put("midx", midx);
 		return sqlSession.selectOne(Namespace+".islikey",map);
 	}
-//	//좋아요하기
-//	public int likeIN(int midx, int spidx) throws Exception{
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("spidx", spidx);
-//		map.put("midx", midx);
-//		return sqlSession.insert(Namespace+".likeIN",map);
-//	}
-//	//좋아요취소
-//	public int likeDEL(int midx, int spidx) throws Exception{
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("spidx", spidx);
-//		map.put("midx", midx);
-//		return sqlSession.delete(Namespace+".likeDEL",map);
-//	}
-//	//좋아요 상품 리스트
-//	public List<StoreVO> likelist(int midx) throws Exception {
-//		return sqlSession.selectList(Namespace+".likelist",midx);
-//	}
-//	//이벤트 리스트
-//	public List<EventVO> eventlist() throws Exception {
-//		return sqlSession.selectList(Namespace+".eventlist");
-//	}
-//	//이벤트 디테일
-//	public EventVO event_detail(int eidx) throws Exception {
-//		return sqlSession.selectOne(Namespace+".event_detail",eidx);
-//	}
+	//좋아요하기
+	public int likeIN(int midx, int spidx) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		map.put("spidx", spidx);
+		map.put("midx", midx);
+		return sqlSession.insert(Namespace+".likeIN",map);
+	}
+	//좋아요취소
+	public int likeDEL(int midx, int spidx) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		map.put("spidx", spidx);
+		map.put("midx", midx);
+		return sqlSession.delete(Namespace+".likeDEL",map);
+	}
+	//좋아요 상품 리스트
+	public List<StoreVO> likelist(int midx) throws Exception {
+		return sqlSession.selectList(Namespace+".likelist",midx);
+	}
+	//이벤트 리스트
+	public List<EventVO> eventlist() throws Exception {
+		return sqlSession.selectList(Namespace+".eventlist");
+	}
+	//이벤트 디테일
+	public EventVO event_detail(int eidx) throws Exception {
+		return sqlSession.selectOne(Namespace+".event_detail",eidx);
+	}
 }
 
 

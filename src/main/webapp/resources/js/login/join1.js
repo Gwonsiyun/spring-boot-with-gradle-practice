@@ -927,8 +927,12 @@ function sendMailFn(){
 					idFoot.text("인증번호가 발송되었습니다.");
 					idFoot.css("color","green");
 					idFoot.css("visibility","visible");
-				}else{
+				}else if(result == "fail"){
 					idFoot.text("인증번호 발송이 실패했습니다.");
+					idFoot.css("color","red");
+					idFoot.css("visibility","visible");
+				}else{
+					idFoot.text(result);
 					idFoot.css("color","red");
 					idFoot.css("visibility","visible");
 				}

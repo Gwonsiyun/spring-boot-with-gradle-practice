@@ -1,6 +1,7 @@
 package com.gwonsiyun.home_friends.controller;
 
 
+import com.google.gson.Gson;
 import com.gwonsiyun.home_friends.service.HomeService;
 import com.gwonsiyun.home_friends.service.StoreService;
 import com.gwonsiyun.home_friends.vo.*;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -193,25 +195,25 @@ public class StoreController {
 //
 //	}
 //
-//	//카테고리 상품 필터
-//	@RequestMapping(value="/lookup", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
-//	@ResponseBody
-//	public String lookup(Locale locale, Model model, SearchVO vo) throws Exception {
+	//카테고리 상품 필터
+	@RequestMapping(value="/lookup", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String lookup(Locale locale, Model model, SearchVO vo) throws Exception {
+
+		//전달받은 데이터로 상품을 조회
+		List<StoreVO> list = storeService.list(vo);
+
+//		ResponseVO<StoreVO> response = new ResponseVO<StoreVO>();
+//		response.setList(list);
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.add("content-type", "application/json; charset=UTF-8");
 //
-//		//전달받은 데이터로 상품을 조회
-//		List<StoreVO> list = storeService.list(vo);
-//
-////		ResponseVO<StoreVO> response = new ResponseVO<StoreVO>();
-////		response.setList(list);
-////		HttpHeaders headers = new HttpHeaders();
-////		headers.add("content-type", "application/json; charset=UTF-8");
-////
-////		return new ResponseEntity<ResponseVO<StoreVO>>(response,headers, HttpStatus.OK);
-//
-//		//json으로 변경 후 호출한 페이지에 전송
-//		String json = new Gson().toJson(list);
-//	    return json;
-//	}
+//		return new ResponseEntity<ResponseVO<StoreVO>>(response,headers, HttpStatus.OK);
+
+		//json으로 변경 후 호출한 페이지에 전송
+		String json = new Gson().toJson(list);
+	    return json;
+	}
 //
 //	//상품 수정 페이지 이동
 //	@RequestMapping(value = "/store_modify.do", method = RequestMethod.GET)
@@ -829,112 +831,112 @@ public class StoreController {
 //		return result+"";
 //	}
 //
-//	//좋아요등록
-//	@RequestMapping(value = "/likeIN", method = RequestMethod.GET)
-//	public @ResponseBody String likeIN(HttpServletRequest request, Locale locale, Model model, int spidx, int midx) throws Exception {
-//
-//		int deleteResult = homeService.deleteSearchList();
-//
-//		List<HomeSearchVO> searchList = homeService.listSearchList();
-//
-//		model.addAttribute("searchList", searchList);
-//
-//		HttpSession session = request.getSession();
-//		MemberVO member = (MemberVO)session.getAttribute("loginUser");
-//
-//		if(member == null) {
-//			return "100";
-//		}
-//
-//		if(member != null &&midx != member.getMidx()) {
-//			midx=member.getMidx();
-//		}
-//
-//		int result = storeService.likeIN(midx,spidx);
-//
-//		return result+"";
-//	}
-//	//좋앙 삭제
-//	@RequestMapping(value = "/likeDEL", method = RequestMethod.GET)
-//	public @ResponseBody String likeDEL(HttpServletRequest request, Locale locale, Model model, int spidx, int midx) throws Exception {
-//
-//		int deleteResult = homeService.deleteSearchList();
-//
-//		List<HomeSearchVO> searchList = homeService.listSearchList();
-//
-//		model.addAttribute("searchList", searchList);
-//
-//		HttpSession session = request.getSession();
-//		MemberVO member = (MemberVO)session.getAttribute("loginUser");
-//
-//		if(member == null) {
-//			return "100";
-//		}
-//
-//		int result = storeService.likeDEL(midx,spidx);
-//
-//		return result+"";
-//	}
-//	//좋아요페이지이동
-//	@RequestMapping(value = "/likey.do", method = RequestMethod.GET)
-//	public String likey(HttpServletRequest request, Locale locale, Model model, SearchVO vo) throws Exception {
-//
-//		int deleteResult = homeService.deleteSearchList();
-//
-//		List<HomeSearchVO> searchList = homeService.listSearchList();
-//
-//		model.addAttribute("searchList", searchList);
-//
-//		HttpSession session = request.getSession();
-//		MemberVO member = (MemberVO)session.getAttribute("loginUser");
-//
-//		if(member == null) {return "redirect:/login/login.do";};
-//
-//
-//
-//		//쿠기에서 최근본 항목을 가져와 리스트로 가져옴
-//		List<StoreVO> list ;
-//		Cookie[] myCookies = request.getCookies();
-//		String recentView = null;
-//		vo.setPage("limit");
-//		if(myCookies != null) {
-//		    for(int i = 0; i < myCookies.length; i++) {
-//		    	if(myCookies[i].getName().equals("recentView")) {
-//		    		recentView = myCookies[i].getValue();
-//		    	}
-//		    }
-//
-//		    if(recentView != null) {
-//			    String[] spidxAryDup = recentView.split("&");
-//			    int size = spidxAryDup.length;
-//
-//				String[] reverseSpidxAry = new String[size];
-//
-//				for (int i = size - 1, j = 0; i >= 0; i--, j++) {
-//					reverseSpidxAry[j] = spidxAryDup[i];
-//				}
-//				LinkedHashSet<String> linkedHashSet = new LinkedHashSet<String>(Arrays.asList(reverseSpidxAry));
-//
-//				String[] spidxAry = linkedHashSet.toArray(new String[0]);
-//
-//				StoreVO selectOne = storeService.detail(Integer.parseInt(spidxAry[0]));
-//
-//				vo.setDetail(selectOne.getDetail());
-//
-//		    }
-//			list = storeService.list(vo);
-//	    }else {
-//	    	list = storeService.list(vo);
-//	    }
-//
-//		model.addAttribute("list", list);
-//		//좋아요 리스트
-//		List<StoreVO> likelist = storeService.likelist(member.getMidx());
-//
-//		model.addAttribute("likelist",likelist);
-//
-//		return "store/likey";
-//	}
+	//좋아요등록
+	@RequestMapping(value = "/likeIN", method = RequestMethod.GET)
+	public @ResponseBody String likeIN(HttpServletRequest request, Locale locale, Model model, int spidx, int midx) throws Exception {
+
+		int deleteResult = homeService.deleteSearchList();
+
+		List<HomeSearchVO> searchList = homeService.listSearchList();
+
+		model.addAttribute("searchList", searchList);
+
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO)session.getAttribute("loginUser");
+
+		if(member == null) {
+			return "100";
+		}
+
+		if(member != null &&midx != member.getMidx()) {
+			midx=member.getMidx();
+		}
+
+		int result = storeService.likeIN(midx,spidx);
+
+		return result+"";
+	}
+	//좋앙 삭제
+	@RequestMapping(value = "/likeDEL", method = RequestMethod.GET)
+	public @ResponseBody String likeDEL(HttpServletRequest request, Locale locale, Model model, int spidx, int midx) throws Exception {
+
+		int deleteResult = homeService.deleteSearchList();
+
+		List<HomeSearchVO> searchList = homeService.listSearchList();
+
+		model.addAttribute("searchList", searchList);
+
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO)session.getAttribute("loginUser");
+
+		if(member == null) {
+			return "100";
+		}
+
+		int result = storeService.likeDEL(midx,spidx);
+
+		return result+"";
+	}
+	//좋아요페이지이동
+	@RequestMapping(value = "/likey.do", method = RequestMethod.GET)
+	public String likey(HttpServletRequest request, Locale locale, Model model, SearchVO vo) throws Exception {
+
+		int deleteResult = homeService.deleteSearchList();
+
+		List<HomeSearchVO> searchList = homeService.listSearchList();
+
+		model.addAttribute("searchList", searchList);
+
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO)session.getAttribute("loginUser");
+
+		if(member == null) {return "redirect:/login/login.do";};
+
+
+
+		//쿠기에서 최근본 항목을 가져와 리스트로 가져옴
+		List<StoreVO> list ;
+		Cookie[] myCookies = request.getCookies();
+		String recentView = null;
+		vo.setPage("limit");
+		if(myCookies != null) {
+		    for(int i = 0; i < myCookies.length; i++) {
+		    	if(myCookies[i].getName().equals("recentView")) {
+		    		recentView = myCookies[i].getValue();
+		    	}
+		    }
+
+		    if(recentView != null) {
+			    String[] spidxAryDup = recentView.split("&");
+			    int size = spidxAryDup.length;
+
+				String[] reverseSpidxAry = new String[size];
+
+				for (int i = size - 1, j = 0; i >= 0; i--, j++) {
+					reverseSpidxAry[j] = spidxAryDup[i];
+				}
+				LinkedHashSet<String> linkedHashSet = new LinkedHashSet<String>(Arrays.asList(reverseSpidxAry));
+
+				String[] spidxAry = linkedHashSet.toArray(new String[0]);
+
+				StoreVO selectOne = storeService.detail(Integer.parseInt(spidxAry[0]));
+
+				vo.setDetail(selectOne.getDetail());
+
+		    }
+			list = storeService.list(vo);
+	    }else {
+	    	list = storeService.list(vo);
+	    }
+
+		model.addAttribute("list", list);
+		//좋아요 리스트
+		List<StoreVO> likelist = storeService.likelist(member.getMidx());
+
+		model.addAttribute("likelist",likelist);
+
+		return "store/likey";
+	}
 //
 //	@RequestMapping(value = "/recommend.do", method = RequestMethod.GET)
 //	public String recommend(Locale locale, Model model, SearchVO vo) throws Exception {

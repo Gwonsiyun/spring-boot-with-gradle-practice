@@ -440,45 +440,45 @@
 		FROM likey
 		where spidx = #{spidx} and midx = #{midx};
     </select>
-<!--    &lt;!&ndash; 좋아요추가 &ndash;&gt;-->
-<!--    <insert id="likeIN" parameterType="int">-->
-<!--    	INSERT INTO likey(-->
-<!--	    		spidx,-->
-<!--	    		midx-->
-<!--	    	) VALUES(-->
-<!--	    		#{spidx},-->
-<!--	    		#{midx}-->
-<!--	    	)-->
-<!--    </insert>-->
-<!--    &lt;!&ndash; 좋아요 삭제 &ndash;&gt;-->
-<!--    <delete id="likeDEL" parameterType="int">-->
-<!--    	DELETE FROM likey WHERE spidx = #{spidx} AND midx = #{midx}-->
-<!--    </delete>-->
-<!--    -->
-<!--    &lt;!&ndash; 좋아요 상품 리스트 &ndash;&gt;-->
-<!--    <select id="likelist" resultType="StoreVO" parameterType="int">-->
-<!--    	SELECT s.spidx-->
-<!--         		,s.title-->
-<!--         		,s.content-->
-<!--         		,s.product_name-->
-<!--         		,FORMAT(s.origin_price,0) as origin_price-->
-<!--         		,s.sale_price-->
-<!--         		,FORMAT(s.sale_price,0) as view_price-->
-<!--         		,s.brand-->
-<!--         		,s.score-->
-<!--         		,s.discount-->
-<!--         		,s.review_cnt-->
-<!--         		,s.img_origin-->
-<!--         		,s.img_system-->
-<!--         		,s.category-->
-<!--         		,s.detail -->
-<!--    	FROM likey l -->
-<!--    	INNER JOIN shopping_product s -->
-<!--    	ON l.spidx = s.spidx -->
-<!--    	WHERE l.midx= #{midx}-->
-<!--    	ORDER BY l.lidx DESC;-->
-<!--    -->
-<!--    </select>-->
+    <!-- 좋아요추가 -->
+    <insert id="likeIN" parameterType="int">
+    	INSERT INTO likey(
+	    		spidx,
+	    		midx
+	    	) VALUES(
+	    		#{spidx},
+	    		#{midx}
+	    	)
+    </insert>
+    <!-- 좋아요 삭제 -->
+    <delete id="likeDEL" parameterType="int">
+    	DELETE FROM likey WHERE spidx = #{spidx} AND midx = #{midx}
+    </delete>
+
+    <!-- 좋아요 상품 리스트 -->
+    <select id="likelist" resultType="StoreVO" parameterType="int">
+    	SELECT s.spidx
+         		,s.title
+         		,s.content
+         		,s.product_name
+         		,FORMAT(s.origin_price,0) as origin_price
+         		,s.sale_price
+         		,FORMAT(s.sale_price,0) as view_price
+         		,s.brand
+         		,s.score
+         		,s.discount
+         		,s.review_cnt
+         		,s.img_origin
+         		,s.img_system
+         		,s.category
+         		,s.detail
+    	FROM likey l
+    	INNER JOIN shopping_product s
+    	ON l.spidx = s.spidx
+    	WHERE l.midx= #{midx}
+    	ORDER BY l.lidx DESC;
+
+    </select>
 <!--    -->
 <!--    <select id="eventlist" resultType="EventVO">-->
 <!--    	SELECT eidx-->

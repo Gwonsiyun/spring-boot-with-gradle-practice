@@ -44,7 +44,7 @@
 		<div class="login_wrap container-fluid">  
 			<div class="row">
 				<div class="col-8" style="float: none; margin:0 auto;">
-					<img class="login_logo" width="180px" src="${pageContext.request.contextPath}/image/mainLogo.png">
+					<img class="login_logo" width="180px" src="/resources/image/mainLogo.png">
 					<form name="loginFrm" id="loginFrm">
 						<div class="red">
 							아이디 또는 비밀번호가 틀렸습니다.
