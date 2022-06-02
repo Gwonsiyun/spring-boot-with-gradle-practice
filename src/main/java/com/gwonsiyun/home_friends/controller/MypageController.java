@@ -1381,7 +1381,7 @@ public class MypageController {
 		if(payInfovo.getErrorMsg() == null || payInfovo.getErrorMsg().equals("")) {
 			
 			payInfovo.setMidx(loginUser.getMidx());
-//			payInfovo.setPaynumber(payInfovo.getMerchantUid());
+			payInfovo.setPaynumber(payInfovo.getMerchantUid());
 			payInfovo.setAmount(payInfovo.getPaidAmount());
 			
 			PayInfoVO checkvo = basketService.payConfirm(payInfovo);
