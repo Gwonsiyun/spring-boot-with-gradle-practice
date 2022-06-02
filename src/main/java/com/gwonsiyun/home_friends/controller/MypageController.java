@@ -1397,35 +1397,36 @@ public class MypageController {
 
 					basketvo.setOrdernumber(ordernumber);
 					basketvo.setPaynumber(ordernumber);
+
+					String[] sbidxArray = basketvo.getSbidxArray();
+
+					int size = sbidxArray.length;
+					int totalResult = 0;
+
+					for(int i=0; i<size; i++) {
+						basketvo.setSbidx(Integer.parseInt(sbidxArray[i]));
+						int result = basketService.insertOrderList(basketvo);
+						totalResult += result;
+					}
+
+					if(totalResult != size) {
+						payInfovo.setErrorMsg("비정상적인 접근 error02"); // 주문 내역에 추가 실패
+						model.addAttribute("payInfovo", payInfovo);
+
+						return "mypage/order_fail";
+					}
+
+				
+					// deleteBasketList
+					int result = basketService.deleteListBasket(basketvo);
+
+					if(result < 1) {
+						payInfovo.setErrorMsg("비정상적인 접근 error03"); // 장바구니 목록에서 삭제 실패
+						model.addAttribute("payInfovo", payInfovo);
+
+						return "mypage/order_fail";
+					}
 				}
-				String[] sbidxArray = basketvo.getSbidxArray();
-				
-				int size = sbidxArray.length;
-				int totalResult = 0;
-				
-				for(int i=0; i<size; i++) {
-					basketvo.setSbidx(Integer.parseInt(sbidxArray[i]));
-					int result = basketService.insertOrderList(basketvo);
-					totalResult += result;
-				}
-				
-				if(totalResult != size) {
-					payInfovo.setErrorMsg("비정상적인 접근 error02"); // 주문 내역에 추가 실패
-					model.addAttribute("payInfovo", payInfovo);
-					
-					return "mypage/order_fail";
-				}				
-				
-				// deleteBasketList
-				int result = basketService.deleteListBasket(basketvo);
-				
-				if(result < 1) {
-					payInfovo.setErrorMsg("비정상적인 접근 error03"); // 장바구니 목록에서 삭제 실패
-					model.addAttribute("payInfovo", payInfovo);
-					
-					return "mypage/order_fail";
-				}				
-				
 				return "mypage/order_success"; 
 				
 			}else {
