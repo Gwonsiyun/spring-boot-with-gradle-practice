@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.study.mapper.managementMapper">
+    
+    <!-- 회원 수 조회 -->
+	<select id="countMember" resultType="int" parameterType="MemberPagingVO">
+			SELECT 
+				COUNT(midx) 
+			FROM 
+				member
+			WHERE
+				1 = 1
+		<if test="searchType != null and searchType.equals('id')">
+			AND 
+				id like CONCAT("%",#{searchValue},"%")
+		</if>
+		<if test="searchType != null and searchType.equals('nick')">
+			AND 
+				nick_name LIKE CONCAT("%",#{searchValue},"%")
+		</if>
+		<if test="searchType != null and searchType.equals('membername')">
+			AND 
+				membername LIKE CONCAT("%",#{searchValue},"%")
+		</if>
+		<if test="searchType != null and searchType.equals('midx')">
+			AND 
+				midx = #{searchValue}
+		</if>
+		<if test="searchType != null and searchType.equals('phone')">
+			AND 
+				phone LIKE CONCAT("%",#{searchValue},"%")
+		</if>
+		<if test="searchType != null and searchType.equals('delyn')">
+			AND 
+				del_yn = #{searchValue}
+		</if>
+	</select>
+	
+	<!-- 페이징 처리 후 회원 목록 조회 -->
+	<select id="selectPagingMember" resultType="MemberVO" parameterType="MemberPagingVO">
+		SELECT 
+			B.* 
+		FROM 
+			(SELECT 
+				@ROWNUM := @ROWNUM + 1 AS RN, 
+				A.* 
+			FROM 
+				(SELECT 
+					midx, 
+					id, 
+					nick_name, 
+					membername, 
+					birthday, 
+					gender, 
+					phone, 
+					join_date, 
+					recommender, 
+					grade, 
+					del_yn, 
+					del_cause, 
+					del_date, 
+					blacklist_yn, 
+					blacklist_date, 
+					black_cause, 
+					follower_cnt, 
+					profile_system, 
+					post_code, 
+					addr 
+				FROM 
+					member 
+				WHERE 
+					1 = 1 
+			<if test="searchType != null and searchType.equals('id')">
+				AND 
+					id like CONCAT("%",#{searchValue},"%")
+			</if>
+			<if test="searchType != null and searchType.equals('nick')">
+				AND 
+					nick_name like CONCAT("%",#{searchValue},"%")
+			</if>
+			<if test="searchType != null and searchType.equals('membername')">
+				AND 
+					membername like CONCAT("%",#{searchValue},"%")
+			</if>
+			<if test="searchType != null and searchType.equals('midx')">
+				AND 
+					midx = #{searchValue}
+			</if>
+			<if test="searchType != null and searchType.equals('phone')">
+				AND 
+					phone like CONCAT("%",#{searchValue},"%")
+			</if>
+			<if test="searchType != null and searchType.equals('delyn')">
+				AND 
+					del_yn = #{searchValue}
+			</if>
+				ORDER BY 
+					midx ASC 
+				) A, 
+				(SELECT @ROWNUM := 0) R
+			) B
+		WHERE 
+			RN BETWEEN #{start} AND #{end}
+	</select>
+    
+    
+    <select id="selectOneMember" resultType="ManagementMemberVO" parameterType="MemberPagingVO">
+    	SELECT 
+			midx, 
+			id, 
+			nick_name, 
+			membername, 
+			birthday, 
+			gender, 
+			phone, 
+			join_date, 
+			recommender, 
+			grade, 
+			del_yn, 
+			del_cause, 
+			del_date, 
+			blacklist_yn, 
+			blacklist_date, 
+			black_cause, 
+			follower_cnt, 
+			profile_system, 
+			post_code, 
+			addr 
+		FROM 
+			member 
+		WHERE 
+			midx = #{midx}
+    </select>
+    
+    
+    <update id="withdrawMember" parameterType="MemberPagingVO">
+    	UPDATE 
+    		member 
+    	SET 
+    		del_yn = "Y", 
+    		del_cause = "관리자에 의해 강제 탈퇴", 
+    		del_date = now() 
+    	WHERE 
+    		midx = #{midx} 
+    </update>
+    
+    
+    <update id="restoreMember" parameterType="MemberPagingVO">
+    	UPDATE 
+    		member 
+    	SET 
+    		del_yn = "N", 
+    		del_cause = "관리자에 의해 탈퇴 복구됨", 
+    		del_date = now() 
+    	WHERE 
+    		midx = #{midx} 
+    </update>
+    
+    
+    <update id="modifyMember" parameterType="ManagementMemberVO">
+    	UPDATE 
+    		member 
+    	SET 
+    		nick_name = #{nick_name}, 
+    		membername = #{membername}, 
+    		gender = #{gender}, 
+    		grade = #{grade}, 
+    		blacklist_yn = #{blacklist_yn},     	
+   		<if test="blacklist_yn eq 'Y'.toString()"> 
+   			blacklist_date = now(), 
+   		</if>    		
+    		black_cause = #{black_cause} 
+    	WHERE 
+    		midx = #{midx} 
+    </update>
+    
+    
+    <update id="imgDelMember" parameterType="MemberPagingVO">
+    	UPDATE 
+    		member 
+    	SET 
+    		profile_system = "kakao_profile_basic.png" 
+    	WHERE 
+    		midx = #{midx} 
+    </update>
+    
+    
+    <select id="statsMember" parameterType="MemberPagingVO" resultType="StatsVO">
+    	SELECT 
+    		COUNT(DISTINCT o.ordernumber) AS buyingCnt, 
+    		o.ordernumber, 
+    		m.midx, 
+    		m.id, 
+    		m.join_date, 
+    		FORMAT(SUM(o.price*o.cnt), 0) AS amount, 
+			MAX(o.buying_date) AS recentBuying 
+		FROM 
+			order_list o 
+		INNER JOIN 
+			member m 
+		ON 
+			o.midx = m.midx 
+		GROUP BY 
+			o.midx 
+		ORDER BY 
+			m.midx asc 
+    </select>
+    
+    
+    <!-- 구매 통계 수 조회 -->
+	<select id="countStats" resultType="int" parameterType="MemberPagingVO">
+			SELECT 
+	    		COUNT(DISTINCT m.midx) 
+			FROM 
+				order_list o 
+			INNER JOIN 
+				member m 
+			ON 
+				o.midx = m.midx 
+			WHERE 
+				1 = 1 
+		<if test="searchType != null and searchType.equals('id')"> 
+			AND 
+				id like CONCAT("%",#{searchValue},"%") 
+		</if> 
+		<if test="searchType != null and searchType.equals('nick')"> 
+			AND 
+				nick_name like CONCAT("%",#{searchValue},"%") 
+		</if> 
+		<if test="searchType != null and searchType.equals('membername')"> 
+			AND 
+				membername like CONCAT("%",#{searchValue},"%") 
+		</if> 
+		<if test="searchType != null and searchType.equals('midx')"> 
+			AND 
+				midx = #{searchValue} 
+		</if> 
+		<if test="searchType != null and searchType.equals('phone')"> 
+			AND 
+				phone like CONCAT("%",#{searchValue},"%") 
+		</if> 
+		<if test="searchType != null and searchType.equals('delyn')"> 
+			AND 
+				del_yn = #{searchValue} 
+		</if> 
+		<if test="period == null or period.equals('1week') or period.equals('')">
+			AND 
+				o.buying_date > DATE_SUB(NOW(), INTERVAL 1 WEEK) 
+		</if>
+		<if test="period != null and period.equals('1month')"> 
+			AND 
+				o.buying_date > DATE_SUB(NOW(), INTERVAL 1 MONTH) 
+		</if> 
+		<if test="period != null and period.equals('3month')"> 
+			AND 
+				o.buying_date > DATE_SUB(NOW(), INTERVAL 3 MONTH) 
+		</if> 
+		<if test="period != null and period.equals('1year')"> 
+			AND 
+				o.buying_date > DATE_SUB(NOW(), INTERVAL 1 YEAR) 
+		</if> 
+		<if test="period != null and period.equals('3year')"> 
+			AND 
+				o.buying_date > DATE_SUB(NOW(), INTERVAL 3 YEAR) 
+		</if> 
+	</select>
+	
+	
+	<!-- 페이징 처리 후 구매 통계 조회 -->
+	<select id="selectPagingStats" resultType="StatsVO" parameterType="MemberPagingVO">
+		SELECT 
+			B.* 
+		FROM 
+			(SELECT 
+				@ROWNUM := @ROWNUM + 1 AS RN, 
+				A.* 
+			FROM 
+				(SELECT 
+		    		COUNT(DISTINCT o.ordernumber) AS buyingCnt, 
+		    		o.ordernumber, 
+		    		o.spidx, 
+		    		m.midx, 
+		    		m.id, 
+		    		DATE_FORMAT(m.join_date, "%Y-%m-%d") AS join_date, 
+		    		FORMAT(SUM(o.price*o.cnt), 0) AS amount, 
+					MAX(o.buying_date) AS recentBuying, 
+					CASE 
+						WHEN s.detail = "11" THEN "소파" 
+						WHEN s.detail = "12" THEN "수납장" 
+						WHEN s.detail = "13" THEN "의자" 
+						WHEN s.detail = "14" THEN "침대" 
+						WHEN s.detail = "15" THEN "테이블" 
+						WHEN s.detail = "16" THEN "화장대"
+						 
+						WHEN s.detail = "21" THEN "LED" 
+						WHEN s.detail = "22" THEN "단스텐드" 
+						WHEN s.detail = "23" THEN "장스텐드" 
+						WHEN s.detail = "24" THEN "무드등" 
+						WHEN s.detail = "25" THEN "천장등" 
+						
+						WHEN s.detail = "31" THEN "베개" 			
+						WHEN s.detail = "32" THEN "이불" 
+						WHEN s.detail = "33" THEN "각종 커버" 
+						WHEN s.detail = "34" THEN "커튼" 
+						WHEN s.detail = "35" THEN "쿠션 방석" 
+						
+						WHEN s.detail = "41" THEN "냉장고" 			
+						WHEN s.detail = "42" THEN "TV" 
+						WHEN s.detail = "43" THEN "세탁기" 
+						WHEN s.detail = "44" THEN "에어컨" 
+						WHEN s.detail = "45" THEN "청소기" 
+						
+						WHEN s.detail = "51" THEN "그릇 접시" 			
+						WHEN s.detail = "52" THEN "냄비 프라이팬" 
+						WHEN s.detail = "53" THEN "보관 용기" 
+						WHEN s.detail = "54" THEN "수저" 
+						WHEN s.detail = "55" THEN "식기건조대" 
+						WHEN s.detail = "56" THEN "컵" 
+						
+						WHEN s.detail = "61" THEN "욕실 용품" 			
+						WHEN s.detail = "62" THEN "수건" 
+						WHEN s.detail = "63" THEN "청소 용품" 
+						WHEN s.detail = "64" THEN "세탁 용품" 
+						WHEN s.detail = "65" THEN "생활 잡화" 	
+						ELSE "기타 상품" 
+					END AS detail 
+				FROM 
+					order_list o 
+				INNER JOIN 
+					member m 
+				ON 
+					o.midx = m.midx 
+				INNER JOIN 
+					shopping_product s 
+				ON 
+					o.spidx = s.spidx 
+				WHERE 
+					1 = 1 
+			<if test="searchType != null and searchType.equals('id')">
+				AND 
+					id like CONCAT("%",#{searchValue},"%") 
+			</if>
+			<if test="searchType != null and searchType.equals('nick')">
+				AND 
+					nick_name like CONCAT("%",#{searchValue},"%") 
+			</if>
+			<if test="searchType != null and searchType.equals('membername')">
+				AND 
+					membername like CONCAT("%",#{searchValue},"%") 
+			</if>
+			<if test="searchType != null and searchType.equals('midx')">
+				AND 
+					midx = #{searchValue} 
+			</if>
+			<if test="searchType != null and searchType.equals('phone')">
+				AND 
+					phone like CONCAT("%",#{searchValue},"%") 
+			</if>
+			<if test="searchType != null and searchType.equals('delyn')">
+				AND 
+					del_yn = #{searchValue} 
+			</if>
+			<if test="period == null or period.equals('1week') or period.equals('')">
+				AND 
+					o.buying_date > DATE_SUB(NOW(), INTERVAL 1 WEEK) 
+			</if>
+			<if test="period != null and period.equals('1month')">
+				AND 
+					o.buying_date > DATE_SUB(NOW(), INTERVAL 1 MONTH) 
+			</if>
+			<if test="period != null and period.equals('3month')">
+				AND 
+					o.buying_date > DATE_SUB(NOW(), INTERVAL 3 MONTH) 
+			</if>
+			<if test="period != null and period.equals('1year')">
+				AND 
+					o.buying_date > DATE_SUB(NOW(), INTERVAL 1 YEAR) 
+			</if>
+			<if test="period != null and period.equals('3year')">
+				AND 
+					o.buying_date > DATE_SUB(NOW(), INTERVAL 3 YEAR) 
+			</if>
+				GROUP BY 
+					o.midx 
+				ORDER BY 
+					m.midx asc 
+				) A, 
+				(SELECT @ROWNUM := 0) R 
+			) B 
+		WHERE 
+			RN BETWEEN #{start} AND #{end} 
+	</select>
+    
+    
+	<select id="orderList" resultType="StatsVO" parameterType="MemberPagingVO">
+		SELECT 
+			o.olidx, 
+			o.title, 
+			o.price, 
+			o.cnt, 
+			o.delivery_charge, 
+			o.free_delivery, 
+			o.buying_date, 
+			o.spidx, 
+			o.midx, 
+			o.ordernumber, 
+			m.id, 
+			FORMAT(o.price, 0) as view_price,  
+			CASE 
+				WHEN s.detail = "11" THEN "소파" 
+				WHEN s.detail = "12" THEN "수납장" 
+				WHEN s.detail = "13" THEN "의자" 
+				WHEN s.detail = "14" THEN "침대" 
+				WHEN s.detail = "15" THEN "테이블" 
+				WHEN s.detail = "16" THEN "화장대"
+				 
+				WHEN s.detail = "21" THEN "LED" 
+				WHEN s.detail = "22" THEN "단스텐드" 
+				WHEN s.detail = "23" THEN "장스텐드" 
+				WHEN s.detail = "24" THEN "무드등" 
+				WHEN s.detail = "25" THEN "천장등" 
+				
+				WHEN s.detail = "31" THEN "베개" 			
+				WHEN s.detail = "32" THEN "이불" 
+				WHEN s.detail = "33" THEN "각종 커버" 
+				WHEN s.detail = "34" THEN "커튼" 
+				WHEN s.detail = "35" THEN "쿠션 방석" 
+				
+				WHEN s.detail = "41" THEN "냉장고" 			
+				WHEN s.detail = "42" THEN "TV" 
+				WHEN s.detail = "43" THEN "세탁기" 
+				WHEN s.detail = "44" THEN "에어컨" 
+				WHEN s.detail = "45" THEN "청소기" 
+				
+				WHEN s.detail = "51" THEN "그릇 접시" 			
+				WHEN s.detail = "52" THEN "냄비 프라이팬" 
+				WHEN s.detail = "53" THEN "보관 용기" 
+				WHEN s.detail = "54" THEN "수저" 
+				WHEN s.detail = "55" THEN "식기건조대" 
+				WHEN s.detail = "56" THEN "컵" 
+				
+				WHEN s.detail = "61" THEN "욕실 용품" 			
+				WHEN s.detail = "62" THEN "수건" 
+				WHEN s.detail = "63" THEN "청소 용품" 
+				WHEN s.detail = "64" THEN "세탁 용품" 
+				WHEN s.detail = "65" THEN "생활 잡화" 	
+				ELSE "기타 상품" 
+			END AS detail 
+		FROM 
+			order_list o 
+		JOIN 
+			member m 
+		ON 
+			o.midx = m.midx 
+		INNER JOIN 
+			shopping_product s 
+		ON 
+			o.spidx = s.spidx 
+		WHERE 
+			m.midx = #{midx} 
+		ORDER BY 
+			o.buying_date DESC 
+	</select>
+	
+
+    
+</mapper>

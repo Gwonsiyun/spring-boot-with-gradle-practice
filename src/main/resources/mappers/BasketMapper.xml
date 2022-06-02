@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.study.mapper.basketMapper">
+
+	<select id="listPayFromBasket" resultType="BasketVO" parameterType="BasketVO">
+		SELECT
+			sbidx,
+			title,
+			price,
+			cnt,
+			delivery_charge,
+			free_delivery,
+			img_origin,
+			img_system,
+			spidx,
+			brand, 
+			FORMAT((price*cnt), 0) AS view_price 
+		FROM
+			shopping_basket
+		WHERE
+			1 = 1
+		AND(
+		<foreach item="sbidx" index="index" collection="sbidxArray">
+			sbidx = #{sbidx}
+		OR		
+		</foreach>
+			sbidx = 0)
+	
+    </select>
+    
+    
+    <select id="listBasket" resultType="BasketVO" parameterType="MemberVO">
+		SELECT
+			sbidx,
+			title,
+			price,
+			cnt,
+			delivery_charge,
+			free_delivery,
+			img_origin,
+			img_system,
+			spidx,
+			brand, 
+			FORMAT((price*cnt), 0) AS view_price 
+		FROM
+			shopping_basket
+		WHERE
+			midx = #{midx}
+		AND
+			del_yn = "N"
+    </select>
+    
+    
+    <update id="deleteOneBasket" parameterType="BasketVO">
+    	UPDATE 
+    		shopping_basket 
+    	SET 
+    		del_yn = "Y" 
+    	WHERE 
+    		sbidx = #{sbidx};
+    </update>
+    
+    
+    <update id="plusCntBasket" parameterType="BasketVO">
+    	UPDATE 
+    		shopping_basket 
+    	SET 
+    		cnt = cnt+1
+    	WHERE
+    		sbidx = #{sbidx}
+    </update>
+    
+    
+    <update id="minusCntBasket" parameterType="BasketVO">
+    	UPDATE 
+    		shopping_basket 
+    	SET 
+    		cnt = cnt-1
+    	WHERE
+    		sbidx = #{sbidx}
+    </update>
+    
+    
+	<select id="CheckedListBasket" resultType="BasketVO" parameterType="BasketVO">
+		SELECT
+			sbidx,
+			title,
+			price,
+			cnt,
+			delivery_charge,
+			free_delivery,
+			img_origin,
+			img_system,
+			spidx,
+			brand, 
+			FORMAT((price*cnt), 0) AS view_price 
+		FROM
+			shopping_basket
+		WHERE
+			1 = 1
+		AND(
+		<foreach item="sbidx" index="index" collection="sbidxArray">
+			sbidx = #{sbidx}
+		OR		
+		</foreach>
+			sbidx = 0)
+	</select>
+    
+    
+    <update id="deleteListBasket" parameterType="BasketVO">
+    	UPDATE 
+    		shopping_basket 
+    	SET 
+    		del_yn = "Y" 
+    	WHERE
+			1 = 1
+		AND(
+		<foreach item="sbidx" index="index" collection="sbidxArray">
+			sbidx = #{sbidx}
+		OR
+		</foreach>
+			sbidx = 0)
+    </update>
+    
+    
+    <insert id="insertOrderList" parameterType="BasketVO">
+	    	INSERT INTO order_list(
+				title,
+				price,
+				cnt,
+				delivery_charge,
+				free_delivery,
+				img_origin,
+				img_system,
+				spidx,
+				midx,
+				ordernumber,
+				paynumber 	
+			) 
+			VALUES(
+				(select title from shopping_basket where sbidx = #{sbidx}),
+				(select price from shopping_basket where sbidx = #{sbidx}),
+				(select cnt from shopping_basket where sbidx = #{sbidx}),
+				(select delivery_charge from shopping_basket where sbidx = #{sbidx}),
+				(select free_delivery from shopping_basket where sbidx = #{sbidx}),
+				(select img_origin from shopping_basket where sbidx = #{sbidx}),
+				(select img_system from shopping_basket where sbidx = #{sbidx}),
+				(select spidx from shopping_basket where sbidx = #{sbidx}),
+				(select midx from shopping_basket where sbidx = #{sbidx}),
+				#{ordernumber},
+				#{paynumber}
+			)
+    </insert>
+    
+    
+    <select id="directPayFromProduct" resultType="BasketVO" parameterType="BasketVO">
+		SELECT
+			spidx,
+			title,
+			sale_price,
+			delivery_charge,
+			free_delivery,
+			img_origin,
+			img_system,
+			brand 
+		FROM
+			shopping_product
+		WHERE
+			spidx = #{spidx}
+	
+    </select>
+    
+    
+    <insert id="insertPaymentInfo" parameterType="PayInfoVO">
+	    	INSERT INTO payment_info(
+				paynumber,
+				amount,
+				midx
+			) 
+			VALUES(
+				#{paynumber},
+				#{amount},
+				#{midx}
+			)
+    </insert>
+    
+    
+    <select id="payConfirm" resultType="PayInfoVO" parameterType="PayInfoVO">
+		SELECT
+			pidx
+		FROM
+			payment_info
+		WHERE
+			paynumber = #{paynumber}
+		AND
+			amount = #{amount}
+		AND
+			midx = #{midx}
+	
+    </select>
+    
+   
+    
+</mapper>

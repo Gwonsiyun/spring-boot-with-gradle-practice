@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.study.mapper.mypageMapper">
+
+    <select id="detailMember" resultType="MemberVO" parameterType="int">
+		SELECT
+			midx,
+    		id,
+    		nick_name,
+    		membername,
+    		birthday,
+    		gender,
+    		phone,
+    		join_date,
+    		mileage,
+    		grade,
+    		del_yn,
+    		blacklist_yn,
+    		follower_cnt,
+    		post_code,
+    		addr,
+    		profile_system
+		FROM
+			member
+		WHERE
+			midx = #{midx}
+    </select>
+    
+    <select id="checkPwd" parameterType="MemberVO" resultType="MemberVO">
+		SELECT
+			midx
+		FROM
+			member
+		WHERE
+			midx = #{midx}
+		AND
+			pass = SHA2(#{pass},512)
+    </select>
+    
+     <update id="updatePwd"  parameterType="MemberVO">
+    	UPDATE 
+    		member
+		SET 
+    	   	pass = SHA2(#{pass},512)
+		WHERE 
+         	midx = #{midx}
+    </update>
+    
+     <update id="updateAddr"  parameterType="MemberVO">
+    	UPDATE 
+    		member
+		SET 
+    	   	post_code = #{post_code},
+    	   	addr = CONCAT(#{addr1}," ",#{addr2}) 
+		WHERE 
+         	midx = #{midx}
+    </update>
+    
+    
+    
+    <update id="modifyMember" parameterType="MemberVO">
+    	UPDATE member 
+    	SET 
+    		id = #{id},
+    		nick_name = #{nick_name},
+    		gender = #{gender},
+    		phone = CONCAT(#{phone1},"-",#{phone2},"-",#{phone3}),
+    		profile_origin = #{profile_origin}, 
+    		profile_system = #{profile_system} 
+    	WHERE 
+    		midx = #{midx}
+    </update>
+    
+     <update id="deleteMember" parameterType="MemberVO">
+    	UPDATE member 
+    	SET
+    		del_yn = #{del_yn},
+    		del_cause = #{del_cause}
+    	WHERE 
+    		midx = #{midx}
+    </update>
+    
+     <select id="orderList" resultType="OrderListVO" parameterType="OrderListVO">
+         SELECT 
+         		olidx,
+         		title,
+         		price,
+         		cnt,
+         		delivery_charge,
+         		img_system,
+         		buying_date,
+         		progress,
+         		delivery_status,
+         		review_registration,
+         		spidx,
+         		ordernumber
+           FROM 
+           		order_list
+          WHERE 
+          		midx = #{midx}
+          ORDER BY buying_date DESC
+          
+    </select>
+    
+      <select id="delState" resultType="OrderListVO" parameterType="OrderListVO">
+         SELECT 
+         		olidx,
+         		title,
+         		price,
+         		cnt,
+         		delivery_charge,
+         		img_system,
+         		buying_date,
+         		progress,
+         		delivery_status,
+         		review_registration,
+         		spidx,
+         		ordernumber
+           FROM 
+           		order_list
+          WHERE 
+          		midx = #{midx}
+          	
+          	<if test="progress.equals('default')">
+            	AND 
+            		1 = 1 
+            </if>
+            <if test="progress.equals('pay')">
+            	AND 
+            		progress = "결제완료"
+            </if>
+             <if test="progress.equals('ready')">
+            	AND 
+            		progress = "배송준비중"
+            </if>
+             <if test="progress.equals('ing')">
+            	AND 
+            		progress = "배송중"
+            </if>
+             <if test="progress.equals('complete')">
+            	AND 
+            		progress = "배송완료"
+            </if>
+          ORDER BY 
+          		buying_date DESC
+    </select>
+  
+  
+      
+    <select id="comcount" resultType="int" parameterType="OrderListVO">
+    	SELECT
+    			count(*)
+    	FROM
+    			order_list 
+    	WHERE
+    			progress = #{progress}
+    	AND
+    			midx = #{midx}
+    			
+    </select>
+    
+    <select id = "viewStory" resultType="Community_BoardVO" parameterType="Community_BoardVO">
+    	SELECT
+    			cbidx,
+    			img_system,
+    			title,
+    			midx
+    	FROM
+    			community_board
+    	WHERE
+    			midx = #{midx}
+    	AND
+    			del_yn = "N"
+    	AND
+    			img_origin is not null
+    	ORDER BY
+    			cbidx DESC
+   
+    </select>
+    
+     <select id = "pagingStory" resultType="Community_BoardVO" parameterType="Community_BoardVO">
+        
+		SELECT 
+			B.* 
+		FROM 
+			(SELECT 
+				@ROWNUM := @ROWNUM + 1 AS RN, 
+				A.* 
+			FROM 
+				(SELECT 
+					cbidx,
+    				img_system,
+    				title
+				FROM 
+					community_board
+				WHERE 
+					midx = #{midx}
+				AND
+    				del_yn = "N"
+    			AND
+    				img_origin is not null
+    			ORDER BY
+    				cbidx DESC
+				) A, 
+				(SELECT @ROWNUM := 0) R
+			) B
+		WHERE 
+			RN BETWEEN #{start} AND #{end}
+		
+    </select>
+    
+     <select id="detailOrder" resultType="OrderListVO" parameterType="OrderListVO">
+    	SELECT 	
+    		M.midx,
+    		O.olidx,
+    		O.title,
+    		O.cnt,
+    		O.free_delivery,
+    		O.progress,
+    		O.img_origin,
+    		O.img_system,
+    		O.buying_date,
+    		O.review_registration,
+    		O.spidx,
+    		O.ordernumber,
+    		M.membername,
+    		M.addr,
+    		M.phone,
+    		O.memo,
+    		O.price
+    	FROM order_list O
+    	INNER JOIN member M
+		ON M.midx = O.midx
+    	WHERE
+    		O.spidx = #{spidx}
+    	AND
+			M.midx = #{midx}
+		AND
+			O.ordernumber = #{ordernumber}
+		
+    </select>
+    
+   
+    <select id="mycomment" resultType="MyContentVO" parameterType="MyContentVO">
+    	SELECT 
+    		B.title, 
+    		B.writer, 
+    		B.reply_cnt, 
+    		B.hit_cnt,
+    		B.img_system, 
+    		B.img_origin,
+    		B.cbidx,
+    		R.write_date,
+    		R.content,
+    		R.midx
+  		FROM 
+  		 	community_board B
+  		INNER JOIN 
+  		 	community_reply R
+		ON
+			B.cbidx = R.cbidx
+		WHERE 	
+			R.midx = #{midx}
+		AND
+    		R.del_yn = "N"
+    	ORDER BY 
+    		R.write_date DESC
+    </select>
+    
+    <select id="myquestion" resultType="MyQnaVO" parameterType="MyQnaVO">
+    	SELECT 
+    		Q.content,
+    		Q.write_date, 
+    		Q.del_yn, 
+    		P.title, 
+    		P.brand,
+    		P.img_system, 
+    		P.img_origin,
+    		Q.spidx,
+    		Q.answer_content,
+    		Q.answer,
+    		Q.midx
+  		FROM 
+  		 	shopping_product P
+  		INNER JOIN 
+  		 	shopping_QnA Q
+		ON
+			Q.spidx = P.spidx
+		WHERE 	
+			Q.midx = #{midx}
+		AND
+    		Q.del_yn = "N"
+    	ORDER BY 
+    		Q.write_date DESC	
+    </select>
+    
+    <select id="ReviewCount" resultType="int" parameterType="Store_reviewVO">
+    	SELECT 
+    		count(*) 
+    	FROM 
+    		shopping_review 
+    	WHERE 
+    		midx = #{midx}
+    	AND 
+    	 	del_yn  = "N"
+    </select>
+    
+     <select id="myreview" resultType="Store_reviewVO" parameterType="Store_reviewVO">
+    	SELECT
+    		 R.content, 
+    		 R.write_date, 
+    		 R.del_yn, 
+    		 P.title,
+    		 P.img_system,
+    		 P.img_origin,
+    		 R.spidx,
+    		 R.sridx,
+    		 R.score,
+    		 R.midx
+		FROM 
+			shopping_review R
+		INNER JOIN 
+			shopping_product P
+		ON 
+			R.spidx = P.spidx
+		WHERE 
+			R.midx = #{midx}
+    	AND
+    		R.del_yn = "N"
+    	ORDER BY 
+    		R.write_date DESC	
+    </select>
+    
+    <!-- 팔로잉 -->
+    <select id="following_cnt" resultType="int" parameterType="FollowVO">
+   	 	SELECT 
+   	 		count(*) 
+   	 	FROM 
+   	 		follow 
+   	 	WHERE 
+   	 		midx = #{midx}
+    </select>
+    
+    <!-- 팔로워 -->
+    <select id="follower_cnt" resultType="int" parameterType="FollowVO">
+   	 	SELECT 
+   	 		count(*) 
+   	 	FROM 
+   	 		follow 
+   	 	WHERE 
+   	 		fmidx = #{fmidx}
+    </select>
+    
+    <!--  나를 팔로잉 한 사람 목록 보기(팔로워) -->
+    <select id="myFollower" resultType="MyFollowVO" parameterType="MyFollowVO">
+	    SELECT 
+	    	M.profile_origin, 
+	    	M.profile_system, 
+	    	M.nick_name, 
+	    	F.midx, 
+	    	M.midx, 
+	    	F.fmidx
+		FROM 
+			member M
+		INNER JOIN 
+			follow F
+		ON 
+			M.midx = F.midx
+		WHERE 
+			F.fmidx = #{fmidx}
+		ORDER BY
+			F.add_date DESC
+		
+    </select>
+    
+	<!-- 내가 팔로잉 한 사람 목록 보기(팔로잉) -->
+	   <select id="myFollowing" resultType="MyFollowVO" parameterType="MyFollowVO">
+		SELECT	F.midx, 
+	    		M.midx,
+			 	F.fmidx,
+				M.nick_name,
+				M.profile_system
+		  FROM follow F
+		  LEFT OUTER JOIN member M
+		    ON F.fmidx = M.midx
+		 WHERE F.midx = #{midx}
+		 ORDER BY add_date desc
+   	 </select>
+    
+    <!-- 내가 스크랩한 홈스토리 숫자 -->
+    <select id="stroyCnt" resultType="int" parameterType="int">
+    SELECT 
+    	count(*) 
+    FROM 
+    	scrap 
+    WHERE 
+    	midx = #{midx}
+    </select>
+    
+    <!-- 내가 좋아요한 스토어 상품 숫자 -->
+    <select id="likeCnt" resultType="int" parameterType="int">
+     SELECT 
+    	count(*) 
+   	 FROM 
+    	likey 
+     WHERE 
+    	midx = #{midx}
+    </select>
+    
+    <select id="allstoryCnt" resultType="int">
+    SELECT 
+    	count(*) 
+   	FROM
+    	community_board
+    WHERE
+    	midx = #{midx}
+    AND
+    	del_yn = "N"
+    AND
+    	img_origin is not null
+    </select>
+    
+    <!-- 팔로우 버튼 관련 -->
+    <insert id="follow">
+		INSERT INTO follow(
+			midx,
+			fmidx
+		) VALUES(
+			#{midx},
+			#{fmidx}
+		)
+	</insert>
+    <!-- 언팔로우 기능 -->
+	<delete id="unfollow">
+		DELETE FROM follow
+		 WHERE midx = #{midx}
+		   AND fmidx = #{fmidx}
+	</delete>
+	
+    <!-- 팔로우 유무 조회 -->
+    <select id="isFollow" resultType="int" parameterType="FollowVO">
+    	SELECT COUNT(*)
+    	  FROM follow
+    	 WHERE midx = #{midx}
+    	   AND fmidx = #{fmidx}
+    </select>
+    
+    
+</mapper>

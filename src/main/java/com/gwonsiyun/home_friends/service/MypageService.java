@@ -1,0 +1,45 @@
+package com.gwonsiyun.home_friends.service;
+
+import com.gwonsiyun.home_friends.vo.*;
+
+import java.util.List;
+
+public interface MypageService { 
+
+	List<MemberVO> list(SearchVO vo) throws Exception;
+	MemberVO detail(int midx) throws Exception;
+	MemberVO checkPwd(MemberVO vo) throws Exception;
+	List<OrderListVO> orderList(OrderListVO vo) throws Exception;
+	List<OrderListVO> orderList2(MemberVO vo) throws Exception;
+	List<OrderListVO> delState(OrderListVO vo) throws Exception;
+	List<Community_BoardVO> viewStory(Community_BoardVO vo) throws Exception;
+	List<OrderListVO> detailOrder(OrderListVO vo) throws Exception;
+	List<MyContentVO> mycomment(MyContentVO vo) throws Exception;
+	List<MyQnaVO> myquestion(MyQnaVO vo) throws Exception;
+	List<Store_reviewVO> myreview(Store_reviewVO vo) throws Exception;
+	List<MyFollowVO> myFollower(MyFollowVO vo) throws Exception;
+	List<MyFollowVO> myFollowing(MyFollowVO vo) throws Exception;
+	List<Community_BoardVO> pagingStory(Community_BoardVO vo) throws Exception;
+	
+	int update(MemberVO vo) throws Exception;
+	int updatePwd(MemberVO vo) throws Exception;
+	int updateAddr(MemberVO vo) throws Exception;
+	int delete(MemberVO vo) throws Exception;
+	int insert(MemberVO vo) throws Exception;
+	int count(OrderListVO vo) throws Exception;
+	int ReviewCount(Store_reviewVO vo) throws Exception;
+	int following_cnt(FollowVO vo) throws Exception;
+	int follower_cnt(FollowVO vo) throws Exception;
+	int stroyCnt(int midx) throws Exception;
+	int likeCnt(int midx) throws Exception;
+	int allstoryCnt(int midx) throws Exception;
+		
+	//팔로우 하기
+	int follow(FollowVO follow) throws Exception;
+	//언팔로우 하기
+	int unfollow(FollowVO follow) throws Exception;
+	//팔로우 유무
+	int isFollow(FollowVO follow) throws Exception;
+	
+	 
+}

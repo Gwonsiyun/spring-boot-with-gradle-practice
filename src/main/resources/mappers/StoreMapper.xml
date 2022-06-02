@@ -96,111 +96,111 @@
 		]]>
 	</select>
 
-<!--    &lt;!&ndash; 상품등록 &ndash;&gt;-->
-<!--    <insert id="insertStore" parameterType="StoreVO">-->
-<!--	    <![CDATA[-->
-<!--	    	INSERT INTO shopping_product(-->
-<!--	    		img_origin,-->
-<!--	    		img_system,-->
-<!--	    		title,-->
-<!--	    		product_Name,-->
-<!--	    		content,-->
-<!--	    		writer,-->
-<!--	    		origin_price,-->
-<!--	    		sale_price,-->
-<!--	    		discount,-->
-<!--	    		brand,-->
-<!--	    		free_delivery,-->
-<!--	    		delivery_charge,-->
-<!--	    		category,-->
-<!--	    		detail,-->
-<!--	    		midx-->
-<!--	    	) VALUES(-->
-<!--	    		#{img_origin},-->
-<!--	    		#{img_system},-->
-<!--	    		#{title},-->
-<!--	    		#{product_name},-->
-<!--	    		#{content},-->
-<!--	    		#{writer},-->
-<!--	    		#{origin_price},-->
-<!--	    		#{sale_price},-->
-<!--	    		#{discount},-->
-<!--	    		#{brand},-->
-<!--	    		#{free_delivery},-->
-<!--	    		#{delivery_charge},-->
-<!--	    		#{category},-->
-<!--	    		#{detail},-->
-<!--	    		#{midx}-->
-<!--	    	)-->
-<!--	    ]]>-->
-<!--	    <selectKey resultType="integer" keyProperty="spidx" order="AFTER">-->
-<!--	    	SELECT MAX(spidx)-->
-<!--	    	  FROM shopping_product-->
-<!--	    </selectKey>-->
-<!--    </insert>-->
-<!--    -->
-<!--    &lt;!&ndash; 상품수정 &ndash;&gt;-->
-<!--    <update id="updateStore" parameterType="StoreVO">-->
-<!--	    <![CDATA[-->
-<!--	    	UPDATE shopping_product-->
-<!--	    	   SET title = #{title}-->
-<!--	    	      ,product_name = #{product_name}-->
-<!--	    		  ,content = #{content}-->
-<!--	    		  ,img_origin = #{img_origin}-->
-<!--	    		  ,img_system = #{img_system}-->
-<!--	    		  ,writer = #{writer}-->
-<!--	    		  ,origin_price = #{origin_price}-->
-<!--	    		  ,sale_price = #{sale_price}-->
-<!--	    		  ,discount = #{discount}-->
-<!--	    		  ,brand =#{brand}-->
-<!--	    		  ,free_delivery = #{free_delivery}-->
-<!--	    		  ,delivery_charge = #{delivery_charge}-->
-<!--	    		  ,category = #{category}-->
-<!--	    		  ,detail = #{detail}-->
-<!--	    		  ,midx = #{midx}-->
-<!--	    		  ,modify_yn = 'Y'-->
-<!--	    		  ,modify_date = CURRENT_TIMESTAMP-->
-<!--	         WHERE spidx = #{spidx}-->
-<!--          ]]>-->
-<!--    </update>-->
-<!--    -->
-<!--    &lt;!&ndash; 상품삭제 &ndash;&gt;-->
-<!--    <update id="deleteStore" parameterType="int">-->
-<!--	    <![CDATA[-->
-<!--	    	UPDATE shopping_product-->
-<!--	    	   SET del_yn = 'Y'-->
-<!--	    	   	  ,del_date = CURRENT_TIMESTAMP-->
-<!--	         WHERE spidx = #{spidx}-->
-<!--          ]]>-->
-<!--    </update>-->
-<!--    -->
-<!--    &lt;!&ndash; 장바구니 저장 &ndash;&gt;-->
-<!--    <insert id="basketIn" parameterType="BasketVO">-->
-<!--    	 <![CDATA[-->
-<!--	    	INSERT INTO shopping_basket(-->
-<!--	    		title,-->
-<!--	    		price,-->
-<!--	    		cnt,-->
-<!--	    		delivery_charge,-->
-<!--	    		free_delivery,-->
-<!--	    		img_origin,-->
-<!--	    		img_system,-->
-<!--	    		spidx,-->
-<!--	    		midx-->
-<!--	    	) VALUES(-->
-<!--	    		#{title},-->
-<!--	    		#{price},-->
-<!--	    		#{cnt},-->
-<!--	    		#{delivery_charge},-->
-<!--	    		#{free_delivery},-->
-<!--	    		#{img_origin},-->
-<!--	    		#{img_system},-->
-<!--	    		#{spidx},-->
-<!--	    		#{midx}-->
-<!--	    	)-->
-<!--	    ]]>-->
-<!--    </insert>-->
-<!--    -->
+    <!-- 상품등록 -->
+    <insert id="insertStore" parameterType="StoreVO">
+	    <![CDATA[
+	    	INSERT INTO shopping_product(
+	    		img_origin,
+	    		img_system,
+	    		title,
+	    		product_Name,
+	    		content,
+	    		writer,
+	    		origin_price,
+	    		sale_price,
+	    		discount,
+	    		brand,
+	    		free_delivery,
+	    		delivery_charge,
+	    		category,
+	    		detail,
+	    		midx
+	    	) VALUES(
+	    		#{img_origin},
+	    		#{img_system},
+	    		#{title},
+	    		#{product_name},
+	    		#{content},
+	    		#{writer},
+	    		#{origin_price},
+	    		#{sale_price},
+	    		#{discount},
+	    		#{brand},
+	    		#{free_delivery},
+	    		#{delivery_charge},
+	    		#{category},
+	    		#{detail},
+	    		#{midx}
+	    	)
+	    ]]>
+	    <selectKey resultType="integer" keyProperty="spidx" order="AFTER">
+	    	SELECT MAX(spidx)
+	    	  FROM shopping_product
+	    </selectKey>
+    </insert>
+
+    <!-- 상품수정 -->
+    <update id="updateStore" parameterType="StoreVO">
+	    <![CDATA[
+	    	UPDATE shopping_product
+	    	   SET title = #{title}
+	    	      ,product_name = #{product_name}
+	    		  ,content = #{content}
+	    		  ,img_origin = #{img_origin}
+	    		  ,img_system = #{img_system}
+	    		  ,writer = #{writer}
+	    		  ,origin_price = #{origin_price}
+	    		  ,sale_price = #{sale_price}
+	    		  ,discount = #{discount}
+	    		  ,brand =#{brand}
+	    		  ,free_delivery = #{free_delivery}
+	    		  ,delivery_charge = #{delivery_charge}
+	    		  ,category = #{category}
+	    		  ,detail = #{detail}
+	    		  ,midx = #{midx}
+	    		  ,modify_yn = 'Y'
+	    		  ,modify_date = CURRENT_TIMESTAMP
+	         WHERE spidx = #{spidx}
+          ]]>
+    </update>
+
+    <!-- 상품삭제 -->
+    <update id="deleteStore" parameterType="int">
+	    <![CDATA[
+	    	UPDATE shopping_product
+	    	   SET del_yn = 'Y'
+	    	   	  ,del_date = CURRENT_TIMESTAMP
+	         WHERE spidx = #{spidx}
+          ]]>
+    </update>
+
+    <!-- 장바구니 저장 -->
+    <insert id="basketIn" parameterType="BasketVO">
+    	 <![CDATA[
+	    	INSERT INTO shopping_basket(
+	    		title,
+	    		price,
+	    		cnt,
+	    		delivery_charge,
+	    		free_delivery,
+	    		img_origin,
+	    		img_system,
+	    		spidx,
+	    		midx
+	    	) VALUES(
+	    		#{title},
+	    		#{price},
+	    		#{cnt},
+	    		#{delivery_charge},
+	    		#{free_delivery},
+	    		#{img_origin},
+	    		#{img_system},
+	    		#{spidx},
+	    		#{midx}
+	    	)
+	    ]]>
+    </insert>
+
     <select id="listqna" resultType="Store_qnaVO" parameterType="int">
          SELECT qna.* FROM
          (SELECT @rownum := @rownum+1 as rownum
@@ -224,182 +224,182 @@
          WHERE rownum BETWEEN #{start} AND #{end};
 
     </select>
-<!--    -->
-<!--    <select id="qna_detail" resultType="Store_qnaVO" parameterType="int">-->
-<!--         SELECT sqidx-->
-<!--         		,content-->
-<!--         		,writer-->
-<!--         		,date_format(write_date, '%Y-%m-%d') as write_date-->
-<!--         		,modify_yn-->
-<!--         		,date_format(modify_date, '%Y-%m-%d') as modify_date-->
-<!--         		,answer-->
-<!--         		,answer_content-->
-<!--         		,answer_writer-->
-<!--         		,date_format(answer_date, '%Y-%m-%d') as answer_date-->
-<!--         		,spidx-->
-<!--           FROM shopping_qna-->
-<!--          WHERE 1=1-->
-<!--            AND del_yn = 'N' -->
-<!--           	AND sqidx = #{sqidx}-->
-<!--    </select>-->
-<!--    -->
+
+    <select id="qna_detail" resultType="Store_qnaVO" parameterType="int">
+         SELECT sqidx
+         		,content
+         		,writer
+         		,date_format(write_date, '%Y-%m-%d') as write_date
+         		,modify_yn
+         		,date_format(modify_date, '%Y-%m-%d') as modify_date
+         		,answer
+         		,answer_content
+         		,answer_writer
+         		,date_format(answer_date, '%Y-%m-%d') as answer_date
+         		,spidx
+           FROM shopping_qna
+          WHERE 1=1
+            AND del_yn = 'N'
+           	AND sqidx = #{sqidx}
+    </select>
+
     <select id="qna_cnt" resultType="int" parameterType="int">
 	    	select count(*) from shopping_qna where del_yn = 'N' AND spidx = #{spidx}
     </select>
-<!--    -->
-<!--    <insert id="insertqna" parameterType="Store_qnaVO">-->
-<!--	    	INSERT INTO shopping_qna(-->
-<!--	    		spidx,-->
-<!--	    		midx,-->
-<!--	    		content,-->
-<!--	    		writer-->
-<!--	    	) VALUES(-->
-<!--	    		#{spidx},-->
-<!--	    		#{midx},-->
-<!--	    		#{content},-->
-<!--	    		#{writer}-->
-<!--	    	)-->
-<!--    </insert>-->
-<!--    <update id="qna_modify" parameterType="Store_qnaVO">-->
-<!--    	UPDATE shopping_qna-->
 
-<!--		SET content = #{content}-->
-<!--			,modify_yn = 'Y'-->
-<!--			,modify_date = CURRENT_TIMESTAMP-->
-<!--		-->
-<!--		WHERE sqidx=#{sqidx}-->
-<!--    </update>-->
-<!--    <update id="qna_reply" parameterType="Store_qnaVO">-->
-<!--    	UPDATE shopping_qna-->
+    <insert id="insertqna" parameterType="Store_qnaVO">
+	    	INSERT INTO shopping_qna(
+	    		spidx,
+	    		midx,
+	    		content,
+	    		writer
+	    	) VALUES(
+	    		#{spidx},
+	    		#{midx},
+	    		#{content},
+	    		#{writer}
+	    	)
+    </insert>
+    <update id="qna_modify" parameterType="Store_qnaVO">
+    	UPDATE shopping_qna
 
-<!--		SET answer = 'Y'-->
-<!--			,answer_content = #{answer_content}-->
-<!--			,answer_writer = #{answer_writer}-->
-<!--			,amidx = #{amidx}-->
-<!--			,answer_date = CURRENT_TIMESTAMP-->
-<!--		-->
-<!--		WHERE sqidx=#{sqidx}-->
-<!--    -->
-<!--    </update>-->
-<!--     <update id="qna_a_del" parameterType="int">-->
-<!--    	UPDATE shopping_qna-->
+		SET content = #{content}
+			,modify_yn = 'Y'
+			,modify_date = CURRENT_TIMESTAMP
 
-<!--		SET answer = 'N'-->
-<!--		-->
-<!--		WHERE sqidx=#{sqidx}-->
-<!--    -->
-<!--    </update>-->
-<!--    <update id="qna_q_del" parameterType="int">-->
-<!--    	UPDATE shopping_qna-->
+		WHERE sqidx=#{sqidx}
+    </update>
+    <update id="qna_reply" parameterType="Store_qnaVO">
+    	UPDATE shopping_qna
 
-<!--		SET del_yn = 'Y'-->
-<!--			,del_date = CURRENT_TIMESTAMP-->
-<!--		-->
-<!--		WHERE sqidx=#{sqidx}-->
-<!--    -->
-<!--    </update>-->
-<!--    -->
-<!--	&lt;!&ndash; 리뷰리스트 조회 &ndash;&gt;-->
-<!--    <select id="store_reviewList" resultType="Store_reviewVO" parameterType="int">-->
-<!--    	SELECT sr.sridx-->
-<!--    			,sr.content-->
-<!--    			,sr.writer-->
-<!--    			,date_format(sr.write_date, '%Y-%m-%d') as write_date-->
-<!--    			,sr.modify_yn-->
-<!--    			,date_format(sr.modify_date, '%Y-%m-%d') as modify_date-->
-<!--    			,sr.img_origin-->
-<!--    			,sr.img_system-->
-<!--    			,sr.score-->
-<!--    			,sr.spidx-->
-<!--    			,sr.midx-->
-<!--    			,m.profile_origin-->
-<!--    			,m.profile_system-->
-<!--    			,m.nick_name-->
-<!--		FROM shopping_review sr-->
-<!--		INNER JOIN member m-->
-<!--		ON sr.midx = m.midx-->
-<!--		where sr.spidx = #{spidx} and sr.del_yn='N'-->
-<!--    </select>-->
-<!--    -->
-<!--    &lt;!&ndash; 단일리뷰 조회 &ndash;&gt;-->
-<!--    <select id="store_review_Detail" resultType="Store_reviewVO" parameterType="int">-->
-<!--    	SELECT sr.sridx-->
-<!--    			,sr.content-->
-<!--    			,sr.img_origin-->
-<!--    			,sr.img_system-->
-<!--    			,sr.score-->
-<!--    			,sr.spidx-->
-<!--    			,sr.midx-->
-<!--		FROM shopping_review sr -->
-<!--		where sr.sridx = #{sridx} and sr.del_yn='N';-->
-<!--    </select>-->
-<!--    -->
-<!--    &lt;!&ndash; 게시글 별점의 합 및 갯수 가져오기 &ndash;&gt;-->
-<!--    <select id="store_review_cnt" resultType="StoreVO" parameterType="int">-->
-<!--    	SELECT count(*) as review_cnt, -->
-<!--    		   sum(score) as score-->
-<!--		FROM shopping_review-->
-<!--		where spidx = #{spidx} and del_yn='N';-->
-<!--    </select>-->
-<!--    -->
-<!--    &lt;!&ndash; 리뷰갯수 및 별점 갱신 &ndash;&gt;-->
-<!--     <update id="store_review_change" parameterType="StoreVO">-->
-<!--    	UPDATE shopping_product-->
+		SET answer = 'Y'
+			,answer_content = #{answer_content}
+			,answer_writer = #{answer_writer}
+			,amidx = #{amidx}
+			,answer_date = CURRENT_TIMESTAMP
 
-<!--		SET score = #{score}-->
-<!--			,review_cnt = #{review_cnt}-->
-<!--		-->
-<!--		WHERE spidx=#{spidx} and del_yn='N';-->
-<!--    </update>-->
-<!--    -->
-<!--    &lt;!&ndash; 리뷰 수정 &ndash;&gt;-->
-<!--    <update id="store_review_modify" parameterType="Store_reviewVO">-->
-<!--    	UPDATE shopping_review-->
+		WHERE sqidx=#{sqidx}
 
-<!--		SET content = #{content}-->
-<!--			,score = #{score}-->
-<!--			,img_origin = #{img_origin}-->
-<!--	    	,img_system = #{img_system}-->
-<!--			,modify_yn = 'Y'-->
-<!--			,modify_date = CURRENT_TIMESTAMP-->
-<!--		-->
-<!--		WHERE sridx=#{sridx}-->
-<!--    </update>-->
-<!--    -->
-<!--    <insert id="store_review_insert" parameterType="Store_reviewVO">-->
-<!--	    	INSERT INTO shopping_review(-->
-<!--	    		spidx,-->
-<!--	    		midx,-->
-<!--	    		content,-->
-<!--	    		writer,-->
-<!--	    		score-->
-<!--	    		<if test="img_origin != null">-->
-<!--	    		,img_origin-->
-<!--	    		,img_system-->
-<!--	    		</if>-->
-<!--	    	) VALUES(-->
-<!--	    		#{spidx},-->
-<!--	    		#{midx},-->
-<!--	    		#{content},-->
-<!--	    		#{writer},-->
-<!--	    		#{score}-->
-<!--	    		<if test="img_origin != null">-->
-<!--	    		,#{img_origin}-->
-<!--	    		,#{img_system}-->
-<!--	    		</if>-->
-<!--	    	)-->
-<!--    </insert>-->
-<!--    -->
-<!--    &lt;!&ndash; 리뷰삭제 &ndash;&gt;-->
-<!--    <update id="store_review_del" parameterType="int">-->
-<!--    	UPDATE shopping_review-->
+    </update>
+     <update id="qna_a_del" parameterType="int">
+    	UPDATE shopping_qna
 
-<!--		SET del_yn = 'Y'-->
-<!--			,del_date = CURRENT_TIMESTAMP-->
-<!--		-->
-<!--		WHERE sridx=#{sridx}-->
-<!--    </update>-->
-<!--    -->
+		SET answer = 'N'
+
+		WHERE sqidx=#{sqidx}
+
+    </update>
+    <update id="qna_q_del" parameterType="int">
+    	UPDATE shopping_qna
+
+		SET del_yn = 'Y'
+			,del_date = CURRENT_TIMESTAMP
+
+		WHERE sqidx=#{sqidx}
+
+    </update>
+
+	<!-- 리뷰리스트 조회 -->
+    <select id="store_reviewList" resultType="Store_reviewVO" parameterType="int">
+    	SELECT sr.sridx
+    			,sr.content
+    			,sr.writer
+    			,date_format(sr.write_date, '%Y-%m-%d') as write_date
+    			,sr.modify_yn
+    			,date_format(sr.modify_date, '%Y-%m-%d') as modify_date
+    			,sr.img_origin
+    			,sr.img_system
+    			,sr.score
+    			,sr.spidx
+    			,sr.midx
+    			,m.profile_origin
+    			,m.profile_system
+    			,m.nick_name
+		FROM shopping_review sr
+		INNER JOIN member m
+		ON sr.midx = m.midx
+		where sr.spidx = #{spidx} and sr.del_yn='N'
+    </select>
+
+    <!-- 단일리뷰 조회 -->
+    <select id="store_review_Detail" resultType="Store_reviewVO" parameterType="int">
+    	SELECT sr.sridx
+    			,sr.content
+    			,sr.img_origin
+    			,sr.img_system
+    			,sr.score
+    			,sr.spidx
+    			,sr.midx
+		FROM shopping_review sr
+		where sr.sridx = #{sridx} and sr.del_yn='N';
+    </select>
+
+    <!-- 게시글 별점의 합 및 갯수 가져오기 -->
+    <select id="store_review_cnt" resultType="StoreVO" parameterType="int">
+    	SELECT count(*) as review_cnt,
+    		   sum(score) as score
+		FROM shopping_review
+		where spidx = #{spidx} and del_yn='N';
+    </select>
+
+    <!-- 리뷰갯수 및 별점 갱신 -->
+     <update id="store_review_change" parameterType="StoreVO">
+    	UPDATE shopping_product
+
+		SET score = #{score}
+			,review_cnt = #{review_cnt}
+
+		WHERE spidx=#{spidx} and del_yn='N';
+    </update>
+
+    <!-- 리뷰 수정 -->
+    <update id="store_review_modify" parameterType="Store_reviewVO">
+    	UPDATE shopping_review
+
+		SET content = #{content}
+			,score = #{score}
+			,img_origin = #{img_origin}
+	    	,img_system = #{img_system}
+			,modify_yn = 'Y'
+			,modify_date = CURRENT_TIMESTAMP
+
+		WHERE sridx=#{sridx}
+    </update>
+
+    <insert id="store_review_insert" parameterType="Store_reviewVO">
+	    	INSERT INTO shopping_review(
+	    		spidx,
+	    		midx,
+	    		content,
+	    		writer,
+	    		score
+	    		<if test="img_origin != null">
+	    		,img_origin
+	    		,img_system
+	    		</if>
+	    	) VALUES(
+	    		#{spidx},
+	    		#{midx},
+	    		#{content},
+	    		#{writer},
+	    		#{score}
+	    		<if test="img_origin != null">
+	    		,#{img_origin}
+	    		,#{img_system}
+	    		</if>
+	    	)
+    </insert>
+
+    <!-- 리뷰삭제 -->
+    <update id="store_review_del" parameterType="int">
+    	UPDATE shopping_review
+
+		SET del_yn = 'Y'
+			,del_date = CURRENT_TIMESTAMP
+
+		WHERE sridx=#{sridx}
+    </update>
+
     <!-- 페이징을 위한 쿼리들 -->
     <!-- 데이터 카운트 쿼리 -->
     <select id="review_count" resultType="int" parameterType="int">
@@ -479,15 +479,15 @@
     	ORDER BY l.lidx DESC;
 
     </select>
-<!--    -->
-<!--    <select id="eventlist" resultType="EventVO">-->
-<!--    	SELECT eidx-->
-<!--    			,e.main_img-->
-<!--    	FROM event_view e-->
-<!--    </select>-->
-<!--    <select id="event_detail" resultType="EventVO" parameterType="int">-->
-<!--    	SELECT *-->
-<!--    	FROM event_view e-->
-<!--    	WHERE e.eidx=#{eidx}-->
-<!--    </select>-->
+
+    <select id="eventlist" resultType="EventVO">
+    	SELECT eidx
+    			,e.main_img
+    	FROM event_view e
+    </select>
+    <select id="event_detail" resultType="EventVO" parameterType="int">
+    	SELECT *
+    	FROM event_view e
+    	WHERE e.eidx=#{eidx}
+    </select>
 </mapper>

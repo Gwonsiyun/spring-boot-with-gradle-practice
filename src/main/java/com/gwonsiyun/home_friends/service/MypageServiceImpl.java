@@ -1,0 +1,200 @@
+package com.gwonsiyun.home_friends.service;
+
+import com.gwonsiyun.home_friends.dao.MypageDAO;
+import com.gwonsiyun.home_friends.vo.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class MypageServiceImpl implements MypageService {
+
+	@Autowired 
+	private MypageDAO mypageDao;
+
+	 
+	 @Override
+	 public List<MemberVO> list(SearchVO vo) throws Exception {
+	 List<MemberVO> list = mypageDao.list(vo);
+	 return list; 
+	 }
+
+	@Override
+	public MemberVO detail(int midx) throws Exception {
+		return mypageDao.detail(midx);
+	}
+	
+	@Override
+	public MemberVO checkPwd(MemberVO vo) throws Exception{
+		return mypageDao.checkPwd(vo);
+	}
+
+	@Override
+	public int update(MemberVO vo) throws Exception {
+		int result = mypageDao.update(vo);
+		return result;
+	}
+	
+	@Override
+	public int updatePwd(MemberVO vo) throws Exception {
+		int result =  mypageDao.updatePwd(vo);
+		return result;
+	}
+
+	@Override
+	public int updateAddr(MemberVO vo) throws Exception {
+		int result =  mypageDao.updateAddr(vo);
+		return result;
+	}
+
+	@Override
+	public int delete(MemberVO vo) throws Exception {
+		int result = mypageDao.delete(vo);
+		return result;
+	}
+
+	@Override
+	public int insert(MemberVO vo) throws Exception {
+		return mypageDao.insert(vo);
+	}
+
+	@Override
+	public List<OrderListVO> orderList(OrderListVO vo) throws Exception {
+		List<OrderListVO> result = mypageDao.orderList(vo); 
+		return result;	
+	}
+	
+	public List<OrderListVO> orderList2(MemberVO vo) throws Exception {
+		List<OrderListVO> list = mypageDao.orderList2(vo);
+		return list;
+	}
+	
+	@Override
+	public int count(OrderListVO vo) throws Exception{
+		int result = mypageDao.count(vo);
+		return result;
+	}
+	
+	@Override
+	public List<OrderListVO> delState(OrderListVO vo) throws Exception {
+		List<OrderListVO> result = mypageDao.delState(vo); 
+		return result;
+	}
+
+	@Override
+	public List<Community_BoardVO> viewStory(Community_BoardVO vo) throws Exception {
+		List<Community_BoardVO> result = mypageDao.viewStory(vo); 
+		return result;
+	}
+
+
+	@Override
+	public List<OrderListVO> detailOrder(OrderListVO vo) throws Exception {
+		List<OrderListVO> result = mypageDao.detailOrder(vo); 
+		return result;
+	}
+
+
+	@Override
+	public List<MyContentVO> mycomment(MyContentVO vo) throws Exception {
+		List<MyContentVO> result = mypageDao.mycomment(vo); 
+		return result;
+	}
+
+
+	@Override
+	public List<MyQnaVO> myquestion(MyQnaVO vo) throws Exception {
+		List<MyQnaVO> result = mypageDao.myquestion(vo); 
+		return result;
+	}
+
+
+	@Override
+	public int ReviewCount(Store_reviewVO vo) throws Exception {
+		int result = mypageDao.ReviewCount(vo);
+		return result;
+	}
+
+
+	@Override
+	public List<Store_reviewVO> myreview(Store_reviewVO vo) throws Exception {
+		List<Store_reviewVO> result = mypageDao.myreview(vo); 
+		return result;
+	}
+
+	@Override
+	public int following_cnt(FollowVO vo) throws Exception {
+		int result = mypageDao.following_cnt(vo);
+		return result;
+	}
+
+	@Override
+	public int follower_cnt(FollowVO vo) throws Exception {
+		int result = mypageDao.follower_cnt(vo);
+		return result;
+	}
+
+	@Override
+	public List<MyFollowVO> myFollower(MyFollowVO vo) throws Exception {
+		List<MyFollowVO> result = mypageDao.myFollower(vo); 
+		return result;
+	}
+
+	@Override
+	public List<MyFollowVO> myFollowing(MyFollowVO vo) throws Exception {
+		List<MyFollowVO> result = mypageDao.myFollowing(vo); 
+		return result;
+	}
+
+	@Override
+	public int stroyCnt(int midx) throws Exception {
+		int result = mypageDao.stroyCnt(midx);
+		return result; 
+	}
+
+	@Override
+	public int likeCnt(int midx) throws Exception {
+		int result = mypageDao.likeCnt(midx); 
+		return result; 
+	}
+
+	@Override
+	public int allstoryCnt(int midx) throws Exception {
+		int result = mypageDao.allstoryCnt(midx); 
+		return result; 
+	}
+
+	@Override
+	public List<Community_BoardVO> pagingStory(Community_BoardVO vo) throws Exception {
+		List<Community_BoardVO> result = mypageDao.pagingStory(vo); 
+		return result;
+	}
+
+	//팔로우 버튼 관련 
+	@Override
+	public int follow(FollowVO follow) throws Exception {
+		return mypageDao.follow(follow);
+	}
+
+	@Override
+	public int unfollow(FollowVO follow) throws Exception {
+		return mypageDao.unfollow(follow);
+	} 
+
+	@Override
+	public int isFollow(FollowVO follow) throws Exception {
+		return mypageDao.isFollow(follow);
+	}
+
+	
+	
+
+	
+	
+	
+	
+	
+	
+
+}

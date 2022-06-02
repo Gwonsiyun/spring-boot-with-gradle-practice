@@ -592,11 +592,11 @@
 		                  icon: "warning",
 		                  closeOnClickOutside : false
 		               }).then(function(){
-		                  location.href="/resources/mypage/addr_modify.do";
+		                  location.href="/mypage/addr_modify.do";
 		               });
 		               
 		            }else{
-		               location.href="/resources/mypage/directPayment.do"+"?midx="+"${loginUser.midx}"+"&spidx="+${vo.spidx}+"&cnt="+cnt;
+		               location.href="/mypage/directPayment.do"+"?midx="+"${loginUser.midx}"+"&spidx="+${vo.spidx}+"&cnt="+cnt;
 		            }
 	            }else{
 	            	swal({
