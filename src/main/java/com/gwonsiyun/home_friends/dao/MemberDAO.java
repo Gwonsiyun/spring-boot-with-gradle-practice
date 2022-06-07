@@ -88,7 +88,10 @@ public class MemberDAO {
 	public MemberVO phoneCheckMember(MemberVO vo) throws Exception{
 		return sqlSession.selectOne(Namespace+".phoneCheckMember",vo);
 	}
-	
+
+	public MemberVO getUserInfo(String id) throws Exception{
+		return sqlSession.selectOne(Namespace+".getUserInfo",id);
+	}
 }
 
 

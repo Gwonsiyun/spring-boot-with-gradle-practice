@@ -66,6 +66,7 @@
     <select id="loginMember" resultType="memberVO" parameterType="memberVO">
 		SELECT
 			midx,
+			pass,
     		id,
     		nick_name,
     		membername,
@@ -284,5 +285,19 @@
 		WHERE
 			phone = CONCAT(#{phone1},"-",#{phone2},"-",#{phone3})
     </select>
-    
+
+	<select id="getUserInfo" resultType="memberVO" parameterType="String">
+		SELECT
+			midx,
+			CONVERT(AES_DECRYPT(pass,SHA2('key',512)) using UTF8),
+			nick_name,
+			grade
+		FROM
+			member
+		WHERE
+			del_yn = 'N'
+		and
+		    id=#{id}
+	</select>
+
 </mapper>

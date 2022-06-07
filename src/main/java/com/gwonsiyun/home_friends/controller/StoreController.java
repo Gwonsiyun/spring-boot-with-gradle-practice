@@ -6,6 +6,10 @@ import com.gwonsiyun.home_friends.service.HomeService;
 import com.gwonsiyun.home_friends.service.StoreService;
 import com.gwonsiyun.home_friends.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -42,8 +47,12 @@ public class StoreController {
 	 */
 	//스토어 메인페이지
 	@RequestMapping(value = "/store.do", method = RequestMethod.GET)
-	public String store(HttpServletRequest request, Locale locale, Model model, SearchVO vo) throws Exception {
-		
+	public String store(HttpServletRequest request, Locale locale, Model model, SearchVO vo, @AuthenticationPrincipal User userInfo, Principal principal) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		if(auth!=null) { //null체크는 어떻게 해야하지 try-catch 로 잡아야하나요
+//			MemberVO memberVO = (MemberVO) auth.getPrincipal();
+//			System.out.println(memberVO.getNick_name());
+//		}
 		//현제 페이지 uri저장를 세션에 저장(로그인시 현제페이지로 돌아옴)
 		String nowUri = request.getRequestURI();
 		HttpSession session = request.getSession();

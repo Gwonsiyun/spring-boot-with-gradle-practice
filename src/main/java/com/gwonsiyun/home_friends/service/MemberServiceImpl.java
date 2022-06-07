@@ -102,5 +102,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.phoneCheckMember(vo);
 	}
 
+	@Override
+	public MemberVO getUserInfo(String id) throws Exception {
+		return memberDao.getUserInfo(id);
+	}
+
 
 }

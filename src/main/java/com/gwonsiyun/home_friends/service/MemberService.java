@@ -23,4 +23,6 @@ public interface MemberService {
 	MemberVO loginNaverMember(MemberVO vo) throws Exception;
 	int insertNaverMember(MemberVO vo) throws Exception;
 	MemberVO phoneCheckMember(MemberVO vo) throws Exception;
+
+	MemberVO getUserInfo(String id) throws Exception;
 }
