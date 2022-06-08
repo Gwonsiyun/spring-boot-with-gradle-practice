@@ -1,6 +1,7 @@
 package com.gwonsiyun.home_friends.config;
 
 import com.gwonsiyun.home_friends.controller.CustomAuthenticationProvider;
+import com.gwonsiyun.home_friends.controller.LoginSuccessHandler;
 import com.gwonsiyun.home_friends.service.LoginIdPwValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginProcessingUrl("/loginProc")
                     .usernameParameter("id")
                     .passwordParameter("pwd")
-                    .defaultSuccessUrl("/", true)
+                    .successHandler(new LoginSuccessHandler())
+//                    .defaultSuccessUrl("/", true)
                     .permitAll()
                 .and()
                     .logout();
@@ -50,6 +52,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/resources/**");
     }
 
+//    @Bean
+//    public AuthenticationSuccessHandler successHandler(){
+//        return new LoginSuccessHandler();
+//    }
     @Bean
     public AuthenticationProvider authenticationProvider() {
         return new CustomAuthenticationProvider();
@@ -58,7 +64,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .authenticationProvider(authenticationProvider());
-//                .userDetailsService(loginIdPwValidator);
+//                .authenticationProvider(authenticationProvider());
+                .userDetailsService(loginIdPwValidator);
     }
 }

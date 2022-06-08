@@ -92,6 +92,10 @@ public class MemberDAO {
 	public MemberVO getUserInfo(String id) throws Exception{
 		return sqlSession.selectOne(Namespace+".getUserInfo",id);
 	}
+
+	public MemberVO loginUser(String id) throws Exception{
+		return sqlSession.selectOne(Namespace+".loginUser",id);
+	}
 }
 
 

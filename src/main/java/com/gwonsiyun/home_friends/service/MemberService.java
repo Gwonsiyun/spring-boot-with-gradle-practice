@@ -25,4 +25,7 @@ public interface MemberService {
 	MemberVO phoneCheckMember(MemberVO vo) throws Exception;
 
 	MemberVO getUserInfo(String id) throws Exception;
+
+	MemberVO loginUser(String id) throws Exception;
+
 }

@@ -289,7 +289,8 @@
 	<select id="getUserInfo" resultType="memberVO" parameterType="String">
 		SELECT
 			midx,
-			CONVERT(AES_DECRYPT(pass,SHA2('key',512)) using UTF8),
+			id,
+			pass,
 			nick_name,
 			grade
 		FROM
@@ -298,6 +299,33 @@
 			del_yn = 'N'
 		and
 		    id=#{id}
+	</select>
+
+	<select id="loginUser" resultType="memberVO" parameterType="String">
+		SELECT
+			midx,
+			pass,
+			id,
+			nick_name,
+			membername,
+			birthday,
+			gender,
+			phone,
+			join_date,
+			mileage,
+			grade,
+			del_yn,
+			blacklist_yn,
+			follower_cnt,
+			post_code,
+			addr,
+			profile_system
+		FROM
+			member
+		WHERE
+			del_yn = 'N'
+		  AND
+			id = #{id}
 	</select>
 
 </mapper>

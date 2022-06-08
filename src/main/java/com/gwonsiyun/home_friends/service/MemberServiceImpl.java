@@ -107,5 +107,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.getUserInfo(id);
 	}
 
+	@Override
+	public MemberVO loginUser(String id) throws Exception {
+		return memberDao.loginUser(id);
+	}
+
 
 }
