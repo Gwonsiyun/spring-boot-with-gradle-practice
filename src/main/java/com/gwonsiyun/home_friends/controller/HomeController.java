@@ -2,10 +2,13 @@ package com.gwonsiyun.home_friends.controller;
 
 import com.gwonsiyun.home_friends.service.Community_BoardService;
 import com.gwonsiyun.home_friends.service.HomeService;
+import com.gwonsiyun.home_friends.service.MemberService;
 import com.gwonsiyun.home_friends.service.StoreService;
 import com.gwonsiyun.home_friends.vo.*;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,6 +29,9 @@ public class HomeController {
 	
 	@Autowired
 	private HomeService homeService;
+
+	@Autowired
+	private MemberService memberService;
 	@Autowired
 	@Qualifier("Community_BoardService")
 	private Community_BoardService Community_boardService;
@@ -40,9 +47,14 @@ public class HomeController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, SearchVO vo, HttpServletRequest request) throws Exception {
-		
+	public String home(Locale locale, Model model, SearchVO vo, HttpServletRequest request, @AuthenticationPrincipal User user, Principal principal) throws Exception {
 		HttpSession session = request.getSession();
+		Object loginUser = session.getAttribute("loginUser");
+		if(principal!=null&&loginUser==null) {
+			String loginUserName = principal.getName();
+			loginUser = memberService.loginUser(loginUserName);
+			session.setAttribute("loginUser", loginUser);
+		}
 	 	session.setAttribute("nowUri", null);
 
 		int deleteResult = homeService.deleteSearchList();

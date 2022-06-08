@@ -22,11 +22,11 @@
 
 	<title>홈 프렌즈에 오신걸 환영합니다.</title>
 
-	<script>
-		console.log(1);
-		console.log("${pageContext.request.contextPath}");
-		console.log("${pageContext.request.requestURL}");
-	</script>
+<%--	<script>--%>
+<%--		console.log(1);--%>
+<%--		console.log("${pageContext.request.contextPath}");--%>
+<%--		console.log("${pageContext.request.requestURL}");--%>
+<%--	</script>--%>
 
 	<link href="${pageContext.request.contextPath}/resources/css/header.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/nav.css" rel="stylesheet">
