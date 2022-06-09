@@ -2,7 +2,6 @@ package com.gwonsiyun.home_friends.controller;
 
 import com.gwonsiyun.home_friends.service.MemberService;
 import com.gwonsiyun.home_friends.vo.MemberVO;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,8 +14,6 @@ import java.util.ArrayList;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
-    private SqlSession sqlSession;
     @Autowired
     private MemberService memberService;
 

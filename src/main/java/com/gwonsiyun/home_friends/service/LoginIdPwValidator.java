@@ -23,7 +23,6 @@ public class LoginIdPwValidator implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String insertedId) throws UsernameNotFoundException {
-        System.out.println(11111111);
         MemberVO user = new MemberVO();
 
         try {

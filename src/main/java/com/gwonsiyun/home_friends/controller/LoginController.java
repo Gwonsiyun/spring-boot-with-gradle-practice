@@ -144,6 +144,7 @@ public class LoginController {
 
 		model.addAttribute("searchList", searchList);
 
+//		session.removeAttribute("loginUser");
 		session.invalidate();
 
 		return "redirect:/";

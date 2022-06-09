@@ -45,7 +45,7 @@
 		var msg = "";
 		
 		//가맹점 식별코드
-		IMP.init("imp58059253");
+		IMP.init("imp02406602");
 		IMP.request_pay({
 			pg : "html5_inicis",
 		    pay_method : "card",

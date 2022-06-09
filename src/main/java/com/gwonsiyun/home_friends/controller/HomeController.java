@@ -4,7 +4,10 @@ import com.gwonsiyun.home_friends.service.Community_BoardService;
 import com.gwonsiyun.home_friends.service.HomeService;
 import com.gwonsiyun.home_friends.service.MemberService;
 import com.gwonsiyun.home_friends.service.StoreService;
-import com.gwonsiyun.home_friends.vo.*;
+import com.gwonsiyun.home_friends.vo.Community_BoardVO;
+import com.gwonsiyun.home_friends.vo.HomeSearchVO;
+import com.gwonsiyun.home_friends.vo.SearchVO;
+import com.gwonsiyun.home_friends.vo.StoreVO;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -49,12 +52,26 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, SearchVO vo, HttpServletRequest request, @AuthenticationPrincipal User user, Principal principal) throws Exception {
 		HttpSession session = request.getSession();
+
+		Object test = session.getAttribute("SPRING_SECURITY_CONTEXT");
+		//spring security를 통해 로그인시 세션에 사용자정보를 담는중
 		Object loginUser = session.getAttribute("loginUser");
+
+//		//SpringSecurity-authenticationProvider
+//		if(principal!=null&&loginUser==null) {
+//			loginUser = ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+//			session.setAttribute("loginUser", loginUser);
+//		}
+
+		//SpringSecurity-userDetailsService
 		if(principal!=null&&loginUser==null) {
 			String loginUserName = principal.getName();
 			loginUser = memberService.loginUser(loginUserName);
 			session.setAttribute("loginUser", loginUser);
 		}
+
+		//end
+
 	 	session.setAttribute("nowUri", null);
 
 		int deleteResult = homeService.deleteSearchList();
